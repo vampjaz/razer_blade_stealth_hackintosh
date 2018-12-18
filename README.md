@@ -1,7 +1,7 @@
 Razer Blade Stealth (2018) hackintosh
 ===
 
-![about this mac image](https://github.com/red-green/razer_blade_stealth_hackintosh/tree/master/images/about.png)
+![about this mac image](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/about.png)
 
 Intro
 ----
