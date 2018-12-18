@@ -8,6 +8,8 @@ Intro
 
 Hey there, I got several requests to release my ESP and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual macOS operating system files.
 
+**Disclaimer:** I am not responsible if you mess up your computer with this guide.
+
 Here is the hardware specification of my Blade as I bought it:
 
 __**Razer Blade Stealth 2018**__
