@@ -4,11 +4,13 @@ Razer Blade Stealth (2018) hackintosh
 ![about this mac image](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/about.png)
 
 Intro
-----
+---
 
 Hey there, I got several requests to release my ESP and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual macOS operating system files.
 
-**Disclaimer:** I am not responsible if you mess up your computer with this guide.
+**Disclaimer:** I am not responsible if you mess up your computer with this guide. I recommend reading everything so you know what you're getting yourself into.
+
+**Another Note:** I made some changes to attempt to fix sleep. If you want the version before I added these changes (its cleaner and brightness actually works), look [here](https://github.com/red-green/razer_blade_stealth_hackintosh/tree/9aa7073060d2b18caa506e3996444312b12b8a6e).
 
 Here is the hardware specification of my Blade as I bought it:
 
@@ -23,12 +25,12 @@ __**Razer Blade Stealth 2018**__
 - **Battery** : 53.6 Wh
 
 Hardware compatibility
-----
+---
 
 If you're familiar with hackintosh hardware compatibility, you will notice there are a few issues there. Lets look at the hardware compatibility that I've so far gotten to work:
 
 CPU
------
+----
 
 The [8550U](https://ark.intel.com/products/122589/Intel-Core-i7-8550U-Processor-8M-Cache-up-to-4-00-GHz-) worked pretty well out of the box. I needed to add CPUFriend and a data SSDT (see SSDT-CPUF) to get it to idle below 1.20GHz (it goes down to about 0.80 now), but other than that, power management seems fine and it has plenty of power. I haven't seen it turbo up all the way, but I think thats a power limit issue. The SMCProcessor sensors kext worked out of the box for seeing CPU temperature.
 
@@ -54,7 +56,7 @@ Both of the cards I mentioned (I got the 04X6020) use a Broadcom BCM94352Z, whic
 Sleep
 ----
 
-I still don't have sleep working fully on this machine. So far, I have lid sleep and wake working fine, and USB PRW has been patched (see SSDT-GPRW) so that it won't wake instantly after sleep. However, although it can sleep and wake fine, the screen stays black after wake. I'm fairly sure this is an issue caused by the framebuffer crashing, but I have not had any success patching it (because I don't know how).
+I have a very weird problem with sleep on this machine (and I have no idea how to solve it). Essentially, at this point, it can go to sleep, either from the sleep option in the Apple menu or from closing the lid. It will stay in sleep mode until I wake it by opening the lid or hitting the power button (I needed to patch out USB wake so the keyboard will not wake it). However, about 15 seconds after it wakes up, it immediately goes back to sleep. It will keep doing this over and over until I do a cold reboot, and then it will act fine. I've tried a few things like AcpiPoller and a patch to monitor the lid status, no luck there. IOElectrify was also an attempt to fix issues with the thunderbolt controller, but it did not help either. You can probably remove both of those kexts without any issue.
 
 Trackpad
 ----
@@ -92,6 +94,18 @@ Keyboard Illumination
 ----
 
 The RGB keyboard (and logo illumination) cannot be easily controlled from macOS that I know of. The Razer Synapse software for Mac doesn't support this device, and various attempts to hotpatch the Razer kexts failed for me. However, I found a [project](https://github.com/kprinssu/osx-razer-blade) that I patched and was able to use to set a few patterns. The `rz_*` apps in the extra folder are some hardcoded examples that can set the keyboard lights to different colors, and enable the Razer logo illumination. Some day I might improve on that app to make it more user friendly.
+
+UEFI Firmware
+----
+
+In the UEFI firmware, I needed to disable these options to get a usable system:
+
+- Thunderbolt support (fully disabled)
+- Security device support
+- Network stack
+- Secure boot
+- Fast boot
+- Launch CSM
 
 Stuff in this repo
 ---

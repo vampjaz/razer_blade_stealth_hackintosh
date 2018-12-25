@@ -10,11 +10,15 @@
 		<dict>
 			<key>Fixes</key>
 			<dict>
-				<key>FixShutdown</key>
-				<false/>
+				<key>FixHPET</key>
+				<true/>
+				<key>FixIPIC</key>
+				<true/>
+				<key>FixRTC</key>
+				<true/>
+				<key>FixTMR</key>
+				<true/>
 			</dict>
-			<key>Name</key>
-			<string>DSDTa.aml</string>
 			<key>Patches</key>
 			<array>
 				<dict>
@@ -23,13 +27,9 @@
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
-					<data>
-					RUMwXw==
-					</data>
+					<data>RUMwXw==</data>
 					<key>Replace</key>
-					<data>
-					RUNfXw==
-					</data>
+					<data>RUNfXw==</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
@@ -37,13 +37,9 @@
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
-					<data>
-					FEwQX0JJRg==
-					</data>
+					<data>FEwQX0JJRg==</data>
 					<key>Replace</key>
-					<data>
-					FEwQWEJJRg==
-					</data>
+					<data>FEwQWEJJRg==</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
@@ -51,13 +47,9 @@
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
-					<data>
-					FEQKX0JTVA==
-					</data>
+					<data>FEQKX0JTVA==</data>
 					<key>Replace</key>
-					<data>
-					FEQKWEJTVA==
-					</data>
+					<data>FEQKWEJTVA==</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
@@ -65,13 +57,9 @@
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
-					<data>
-					X09TSQ==
-					</data>
+					<data>X09TSQ==</data>
 					<key>Replace</key>
-					<data>
-					WE9TSQ==
-					</data>
+					<data>WE9TSQ==</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
@@ -79,13 +67,9 @@
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
-					<data>
-					R0ZYMA==
-					</data>
+					<data>R0ZYMA==</data>
 					<key>Replace</key>
-					<data>
-					SUdQVQ==
-					</data>
+					<data>SUdQVQ==</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
@@ -93,13 +77,9 @@
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
-					<data>
-					FEAGR1BSVw==
-					</data>
+					<data>FEAGR1BSVw==</data>
 					<key>Replace</key>
-					<data>
-					FEAGWFBSVw==
-					</data>
+					<data>FEAGWFBSVw==</data>
 				</dict>
 			</array>
 		</dict>
@@ -108,6 +88,10 @@
 			<dict>
 				<key>Signature</key>
 				<string>DMAR</string>
+			</dict>
+			<dict>
+				<key>Signature</key>
+				<string>MATS</string>
 			</dict>
 		</array>
 		<key>SSDT</key>
@@ -122,17 +106,13 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>keepsyms=1 dart=0 debug=0x100 -cdfon</string>
+		<string>keepsyms=1 lilucpu=9 dart=0 debug=0x100 -cdfon</string>
 		<key>CustomLogo</key>
 		<string>Alternate</string>
 		<key>DefaultVolume</key>
 		<string>MacBlade</string>
-		<key>NeverDoRecovery</key>
-		<false/>
 		<key>NeverHibernate</key>
 		<true/>
-		<key>NoEarlyProgress</key>
-		<false/>
 		<key>Timeout</key>
 		<integer>1</integer>
 		<key>XMPDetection</key>
@@ -149,36 +129,35 @@
 	<dict>
 		<key>FrequencyMHz</key>
 		<integer>1800</integer>
-		<key>HWPEnable</key>
-		<false/>
 	</dict>
 	<key>Devices</key>
 	<dict>
+		<key>Audio</key>
+		<dict>
+			<key>AFGLowPowerState</key>
+			<false/>
+		</dict>
 		<key>Properties</key>
 		<dict>
 			<key>PciRoot(0x0)/Pci(0x1F,0x3)</key>
 			<dict>
 				<key>alc-layout-id</key>
-				<data>
-				HQAAAA==
-				</data>
+				<data>HQAAAA==</data>
 			</dict>
 			<key>PciRoot(0x0)/Pci(0x2,0x0)</key>
 			<dict>
 				<key>device-id</key>
-				<data>
-				G1kAAA==
-				</data>
+				<data>G1kAAA==</data>
+				<key>framebuffer-patch-enable</key>
+				<data>AQAAAA==</data>
+				<key>enable-cfl-backlight-fix</key>
+				<data>AQAAAA==</data>
 			</dict>
 		</dict>
 		<key>USB</key>
 		<dict>
-			<key>AddClockID</key>
-			<false/>
 			<key>FixOwnership</key>
 			<true/>
-			<key>Inject</key>
-			<false/>
 		</dict>
 	</dict>
 	<key>GUI</key>
@@ -190,21 +169,10 @@
 			<string>Preboot</string>
 			<string>Recovery</string>
 		</array>
-		<key>Language</key>
-		<string>en:0</string>
-		<key>Mouse</key>
-		<dict>
-			<key>Enabled</key>
-			<false/>
-		</dict>
 		<key>Scan</key>
 		<dict>
 			<key>Entries</key>
 			<true/>
-			<key>Legacy</key>
-			<false/>
-			<key>Linux</key>
-			<false/>
 			<key>Tool</key>
 			<true/>
 		</dict>
@@ -217,11 +185,7 @@
 	<dict>
 		<key>Inject</key>
 		<dict>
-			<key>ATI</key>
-			<false/>
 			<key>Intel</key>
-			<false/>
-			<key>NVidia</key>
 			<false/>
 		</dict>
 	</dict>
@@ -235,29 +199,9 @@
 				<key>Disabled</key>
 				<false/>
 				<key>Find</key>
-				<data>
-				igKEwHRC
-				</data>
+				<data>igKEwHRC</data>
 				<key>Replace</key>
-				<data>
-				igKEwOtC
-				</data>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>MSR 0xE2 _xcpm_idle instant reboot (c) Pike R. Alpha</string>
-				<key>Disabled</key>
-				<true/>
-				<key>Find</key>
-				<data>
-				ILniAAAADzA=
-				</data>
-				<key>MatchOS</key>
-				<string>10.12</string>
-				<key>Replace</key>
-				<data>
-				ILniAAAAkJA=
-				</data>
+				<data>igKEwOtC</data>
 			</dict>
 		</array>
 	</dict>
