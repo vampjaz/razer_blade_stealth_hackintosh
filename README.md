@@ -10,8 +10,6 @@ Hey there, I got several requests to release my ESP and show how I made my Razer
 
 **Disclaimer:** I am not responsible if you mess up your computer with this guide. I recommend reading everything so you know what you're getting yourself into.
 
-**Another Note:** I made some changes to attempt to fix sleep. If you want the version before I added these changes (its cleaner and brightness actually works), look [here](https://github.com/red-green/razer_blade_stealth_hackintosh/tree/9aa7073060d2b18caa506e3996444312b12b8a6e).
-
 Here is the hardware specification of my Blade as I bought it:
 
 __**Razer Blade Stealth 2018**__
@@ -32,12 +30,12 @@ If you're familiar with hackintosh hardware compatibility, you will notice there
 CPU
 ----
 
-The [8550U](https://ark.intel.com/products/122589/Intel-Core-i7-8550U-Processor-8M-Cache-up-to-4-00-GHz-) worked pretty well out of the box. I needed to add CPUFriend and a data SSDT (see SSDT-CPUF) to get it to idle below 1.20GHz (it goes down to about 0.80 now), but other than that, power management seems fine and it has plenty of power. I haven't seen it turbo up all the way, but I think thats a power limit issue. The SMCProcessor sensors kext worked out of the box for seeing CPU temperature.
+The [i7-8550U](https://ark.intel.com/products/122589/Intel-Core-i7-8550U-Processor-8M-Cache-up-to-4-00-GHz-) worked pretty well out of the box. I needed to add CPUFriend and a data SSDT (see SSDT-CPUF) to get it to idle below 1.20GHz (it goes down to about 0.80 now), but other than that, power management seems fine and it has plenty of power. I haven't seen it turbo up all the way, but I think thats a power limit issue. The SMCProcessor sensors kext worked out of the box for seeing CPU temperature.
 
 GPU
 ----
 
-After realizing I needed a specific old version of Lilu (1.2.7), all I needed to do is inject a `device-id` in the GPU properties section to get full acceleration, including video decode. It does have a few framebuffer issues however, which caused problems elsewhere. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it seems to flicker at that resolution. I don't use that however, I simply run at 2048x1152 which is about 150% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the Clovy theme looks very sharp.
+All I needed to do is inject a `device-id` in the GPU properties section and use `lilucpu=9` as a boot arg to get full acceleration, including video decode. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it seems to flicker at that resolution. I don't use that however, I simply run at 2560x1440 which is about 150% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the Clovy theme looks very sharp.
 
 SSD
 ----
@@ -61,7 +59,7 @@ I have a very weird problem with sleep on this machine (and I have no idea how t
 Trackpad
 ----
 
-Its a multitouch I2C trackpad, so I simply used VoodooI2C plus VoodooI2CHID with an SSDT-XOSI to enable the I2C controller. All the native multitouch gestures work great, even three finger click-and-drag. Its not quite as sensitive as my MBP trackpad, but its better than I expected on a hackintosh. Right click is a little finnicky if you don't tap with two fingers.
+It's a multitouch I2C trackpad, so I simply used VoodooI2C plus VoodooI2CHID with an SSDT-XOSI to enable the I2C controller. All the native multitouch gestures work great, even three finger click-and-drag. Its not quite as sensitive as my MBP trackpad, but its better than I expected on a hackintosh. Right click is a little finnicky if you don't tap with two fingers. For 10.14.5, I needed to [force load a system kext](https://github.com/alexandred/VoodooI2C/issues/125#issuecomment-461927427) for VoodooI2C to load. I'm also using an old version as the newest one has some bugs with click and drag on this trackpad.
 
 Touchscreen
 ----
@@ -83,12 +81,12 @@ I used the [USBMap](https://github.com/corpnewt/USBMap) script to create the UIA
 Display Outs
 ----
 
-The laptop has an HDMI port and a DisplayPort-over-Thunderbolt 3 as display outputs. I don't have any TB3-DP converters to test that output, but the HDMI out doesn't really work. Plugging anything into it seems to crash the framebuffer, as I lose all display output. I'm sure this could be solved if I knew how to patch framebuffers properly.
+The laptop has an HDMI port and a DisplayPort-over-Thunderbolt 3 as display outputs. I don't have any TB3-DP converters to test that output, but I have gotten HDMI working. Like the internal display, it does flicker at high resolutions and doesn't seem to support 4K60 but it works alright for now.
 
 Battery
 ----
 
-Using a DSDT patch in the MaciASL patch repo named "bat - Razer Blade (2014)", and SMCBatteryManager, I was able to get battery status and precentage working. I incorporated the patched methods into an SSDT hotpatch (see SSDT-BATT). It also seems to last a really long time with proper power management.
+Using a DSDT patch in the MaciASL patch repo named "bat - Razer Blade (2014)", and SMCBatteryManager, I was able to get battery status and precentage working. I incorporated the patched methods into an SSDT hotpatch (see SSDT-BATT). The power management works well and the battery lasts a while.
 
 Keyboard Illumination
 ----
@@ -121,4 +119,4 @@ The `images` folder has, among other things, the desktop I edited based on the [
 Conclusion?
 ---
 
-Its a pretty good laptop, one might almost mistake it for a dark Macbook. I'm quite satasfied with it, though I would really like to get sleep working. If you want help you can probably find me on the Hackintosh discord: https://discord.gg/uvWNGKV - `@LGA#1151`. Also, if you figure out sleep or FB patching, please let me know!
+Its a pretty good laptop, one might almost mistake it for a dark Macbook. I'm quite satasfied with it, though I would really like to get sleep working. If you want help you can probably find me on the Hackintosh discord: https://discord.gg/uvWNGKV - `@LGA#1151`. Also, if you figure out sleep, please let me know!
