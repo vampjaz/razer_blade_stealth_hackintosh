@@ -107,8 +107,6 @@
 	<dict>
 		<key>Arguments</key>
 		<string>keepsyms=1 lilucpu=9 dart=0 debug=0x100 -cdfon</string>
-		<key>CustomLogo</key>
-		<string>Alternate</string>
 		<key>DefaultVolume</key>
 		<string>MacBlade</string>
 		<key>NeverHibernate</key>
@@ -135,23 +133,29 @@
 		<key>Audio</key>
 		<dict>
 			<key>AFGLowPowerState</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Properties</key>
 		<dict>
-			<key>PciRoot(0x0)/Pci(0x1F,0x3)</key>
-			<dict>
-				<key>alc-layout-id</key>
-				<data>HQAAAA==</data>
-			</dict>
 			<key>PciRoot(0x0)/Pci(0x2,0x0)</key>
 			<dict>
 				<key>device-id</key>
 				<data>G1kAAA==</data>
 				<key>framebuffer-patch-enable</key>
-				<data>AQAAAA==</data>
-				<key>enable-cfl-backlight-fix</key>
-				<data>AQAAAA==</data>
+				<integer>1</integer>
+				<key>framebuffer-con1-enable</key>
+				<integer>1</integer>
+				<key>enable-hdmi20</key>
+				<integer>1</integer>
+				<key>framebuffer-unifiedmem</key>
+				<data>AAAAgA==</data>
+				<key>framebuffer-con1-alldata</key>
+				<data>AQUKAAAIAACHAQAAAgQKAAAIAACHAQAA/wAAAAEAAAAgAAAA</data>
+			</dict>
+			<key>PciRoot(0x0)/Pci(0x1F,0x3)</key>
+			<dict>
+				<key>alc-layout-id</key>
+				<data>HQAAAA==</data>
 			</dict>
 		</dict>
 		<key>USB</key>
@@ -203,6 +207,10 @@
 				<key>Replace</key>
 				<data>igKEwOtC</data>
 			</dict>
+		</array>
+		<key>ForceKextsToLoad</key>
+		<array>
+			<string>\System\Library\Extensions\IOGraphicsFamily.kext</string>
 		</array>
 	</dict>
 	<key>RtVariables</key>
