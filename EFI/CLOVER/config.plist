@@ -4,8 +4,6 @@
 <dict>
 	<key>ACPI</key>
 	<dict>
-		<key>AutoMerge</key>
-		<true/>
 		<key>DSDT</key>
 		<dict>
 			<key>Fixes</key>
@@ -106,7 +104,7 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>keepsyms=1 lilucpu=9 dart=0 debug=0x100 -cdfon</string>
+		<string>lucpu=9 dart=0 debug=0x100</string>
 		<key>DefaultVolume</key>
 		<string>MacBlade</string>
 		<key>NeverHibernate</key>
@@ -155,7 +153,7 @@
 			<key>PciRoot(0x0)/Pci(0x1F,0x3)</key>
 			<dict>
 				<key>alc-layout-id</key>
-				<data>HQAAAA==</data>
+				<integer>29</integer>
 			</dict>
 		</dict>
 		<key>USB</key>
@@ -210,7 +208,7 @@
 		</array>
 		<key>ForceKextsToLoad</key>
 		<array>
-			<string>\System\Library\Extensions\IOGraphicsFamily.kext</string>
+			<string>/System/Library/Extensions/IOGraphicsFamily.kext</string>
 		</array>
 	</dict>
 	<key>RtVariables</key>

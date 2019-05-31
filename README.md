@@ -8,7 +8,7 @@ Intro
 
 Hey there, I got several requests to release my ESP and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual macOS operating system files.
 
-**Disclaimer:** I am not responsible if you mess up your computer with this guide. I recommend reading everything so you know what you're getting yourself into.
+**Disclaimer:** I am not responsible if you mess up your computer with this setup. I recommend reading everything so you know what you're getting yourself into.
 
 Here is the hardware specification of my Blade as I bought it:
 
@@ -35,7 +35,7 @@ The [i7-8550U](https://ark.intel.com/products/122589/Intel-Core-i7-8550U-Process
 GPU
 ----
 
-All I needed to do is inject a `device-id` in the GPU properties section and use `lilucpu=9` as a boot arg to get full acceleration, including video decode. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it seems to flicker at that resolution. I don't use that however, I simply run at 2560x1440 which is about 150% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the Clovy theme looks very sharp.
+All I needed to do is inject a `device-id` in the GPU properties section and use `lilucpu=9` as a boot arg to get full acceleration, including video decode. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it seems to flicker at that resolution. I don't use that however, I simply run at 2560x1440 using [RDM](https://github.com/usr-sse2/RDM) which is about 125% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the Clovy theme looks very sharp.
 
 SSD
 ----
@@ -59,7 +59,7 @@ I have a very weird problem with sleep on this machine (and I have no idea how t
 Trackpad
 ----
 
-It's a multitouch I2C trackpad, so I simply used VoodooI2C plus VoodooI2CHID with an SSDT-XOSI to enable the I2C controller. All the native multitouch gestures work great, even three finger click-and-drag. Its not quite as sensitive as my MBP trackpad, but its better than I expected on a hackintosh. Right click is a little finnicky if you don't tap with two fingers. For 10.14.5, I needed to [force load a system kext](https://github.com/alexandred/VoodooI2C/issues/125#issuecomment-461927427) for VoodooI2C to load. I'm also using an old version as the newest one has some bugs with click and drag on this trackpad.
+It's a Synaptics 1A586757 multitouch I2C trackpad, so I simply used VoodooI2C plus VoodooI2CHID with an SSDT-XOSI to enable the I2C controller. All the native multitouch gestures work great, even three finger click-and-drag. Its not quite as sensitive as my MBP trackpad, but its better than I expected on a hackintosh. Right click is a little finnicky if you don't tap with two fingers. For 10.14.5, I needed to [force load a system kext](https://github.com/alexandred/VoodooI2C/issues/125#issuecomment-461927427) for VoodooI2C to load. I'm also using an old version as the newest one has some bugs with click and drag on this trackpad.
 
 Touchscreen
 ----
@@ -69,7 +69,7 @@ The touchscreen worked fine out of the box for basic pointing. Additionally, whe
 Sound
 ----
 
-The soundcard, according to the PCI ID, seems to be a Realtek ALC298. This is supported by AppleALC with layout ID 29, which I patched in through device properties. Both the internal speakers and headphone jack work, and switching between them is automatic.
+The soundcard, according to the PCI ID, seems to be a Realtek ALC298. This is supported by [AppleALC](https://github.com/acidanthera/AppleALC/wiki/Supported-codecs) with layout ID 29, which I patched in through device properties. Both the internal speakers and headphone jack work, and switching between them is automatic.
 
 USB
 ----
