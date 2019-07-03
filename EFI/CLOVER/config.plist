@@ -104,13 +104,13 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>lucpu=9 dart=0 debug=0x100</string>
+		<string>lilucpu=9 debug=0x100</string>
 		<key>DefaultVolume</key>
 		<string>MacBlade</string>
 		<key>NeverHibernate</key>
 		<true/>
 		<key>Timeout</key>
-		<integer>1</integer>
+		<integer>2</integer>
 		<key>XMPDetection</key>
 		<string>Yes</string>
 	</dict>
@@ -145,10 +145,12 @@
 				<integer>1</integer>
 				<key>enable-hdmi20</key>
 				<integer>1</integer>
+				<key>enable-dpcd-max-link-rate-fix</key>
+				<integer>1</integer>
 				<key>framebuffer-unifiedmem</key>
 				<data>AAAAgA==</data>
 				<key>framebuffer-con1-alldata</key>
-				<data>AQUKAAAIAACHAQAAAgQKAAAIAACHAQAA/wAAAAEAAAAgAAAA</data>
+				<data>AQUJAAAEAACHAQAA</data>
 			</dict>
 			<key>PciRoot(0x0)/Pci(0x1F,0x3)</key>
 			<dict>
@@ -193,6 +195,39 @@
 	</dict>
 	<key>KernelAndKextPatches</key>
 	<dict>
+		<key>Disabled</key>
+		<false/>
+		<key>KextsToPatch</key>
+		<array>
+			<dict>
+				<key>Comment</key>
+				<string>Prevent Apple I2C kexts from attaching to I2C controller</string>
+				<key>Name</key>
+				<string>com.apple.driver.AppleIntelLpssI2C</string>
+				<key>Find</key>
+				<data>SU9LaXQ=</data>
+				<key>Replace</key>
+				<data>SU9LaXM=</data>
+				<key>InfoPlistPatch</key>
+				<true/>
+				<key>Disabled</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>Prevent Apple I2C kexts from attaching to I2C controllers</string>
+				<key>Name</key>
+				<string>com.apple.driver.AppleIntelLpssI2CController</string>
+				<key>Find</key>
+				<data>SU9LaXQ=</data>
+				<key>Replace</key>
+				<data>SU9LaXM=</data>
+				<key>InfoPlistPatch</key>
+				<true/>
+				<key>Disabled</key>
+				<false/>
+			</dict>
+		</array>
 		<key>KernelToPatch</key>
 		<array>
 			<dict>
@@ -205,10 +240,6 @@
 				<key>Replace</key>
 				<data>igKEwOtC</data>
 			</dict>
-		</array>
-		<key>ForceKextsToLoad</key>
-		<array>
-			<string>/System/Library/Extensions/IOGraphicsFamily.kext</string>
 		</array>
 	</dict>
 	<key>RtVariables</key>

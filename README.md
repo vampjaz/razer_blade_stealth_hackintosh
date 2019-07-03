@@ -10,6 +10,8 @@ Hey there, I got several requests to release my ESP and show how I made my Razer
 
 **Disclaimer:** I am not responsible if you mess up your computer with this setup. I recommend reading everything so you know what you're getting yourself into.
 
+This EFI (both the Clover and OpenCore versions) may in theory be compatible with Catalina but you're on your own if you try to install it.
+
 Here is the hardware specification of my Blade as I bought it:
 
 __**Razer Blade Stealth 2018**__
@@ -19,6 +21,7 @@ __**Razer Blade Stealth 2018**__
 - **Storage** : Samsung PM981 512GB NVMe M.2
 - **Screen** : 13.3" 3200x1800 with touch
 - **WiFi** : Killer AC1535
+- **Thunderbolt** : Intel Alpine Ridge JHL6340
 - **Soundcard** : Realtek ALC298
 - **Battery** : 53.6 Wh
 
@@ -109,6 +112,8 @@ Stuff in this repo
 ---
 
 The `EFI` folder should be a minimal but complete EFI partition with Clover and all my kexts, config, and ACPI patches. On another Blade Stealth, you may be able to drop this in and get a working system, though that is not guaranteed. You should be able to take ideas from the configuration for your own build. If you use the config.plist, you will want to change your serial number, board serial, and SmUUID (can be done with [this](https://github.com/corpnewt/GenSMBIOS)).
+
+The `EFI_OpenCore` folder is an experimental OpenCore configuration for the Stealth, based mostly on the Clover setup. Beware that OpenCore is much less user friendly and can cause issues with dual boots and Apple accounts. Use at your own risk.
 
 The `SSDTs` folder has the uncompiled versions of the SSDTs that I had to create for various hotpatches.
 
