@@ -79,6 +79,16 @@
 					<key>Replace</key>
 					<data>FEAGWFBSVw==</data>
 				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>fix auto wake by setting LIDS to One at the end of RWAK</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>e2AKBGB6YAoCYHBgTElEU4Zc</data>
+					<key>Replace</key>
+					<data>e2AKBGB6YAoCYHABTElEU4Zc</data>
+				</dict>
 			</array>
 		</dict>
 		<key>DropTables</key>
