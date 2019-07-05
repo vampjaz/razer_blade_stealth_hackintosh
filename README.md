@@ -52,17 +52,40 @@ Wifi
 
 The included Killer AC1535 wifi/BT card will also not work in macOS as it lacks drivers. **You will need to replace it if you want wifi**, or else get a USB dongle. There are a number of compatible cards that can fit into the M.2 E-key slot. A Dell DW1560 or a Lenovo 04X6020 card will fit there fine. Be careful of wider cards like the Dell DW1860, they will not fit. 
 
-Both of the cards I mentioned (I got the 04X6020) use a Broadcom BCM94352Z, which works for me using AirportBrcmFixup and BrcmBluetoothInjector for Wifi and Bluetooth respectively. I have used Airdrop fine with this card, and continuity seems to work too.
+Both of the cards I mentioned (I got the 04X6020) use a Broadcom BCM94352Z, which works for me using AirportBrcmFixup and BrcmBluetoothInjector+BrcmPatchRam2 for Wifi and Bluetooth respectively. I have used Airdrop fine with this card, and continuity seems to work too. Note: the included BrcmPatchRam2 is from headkaze's fork for Catalina compatibility.
 
 Sleep
 ----
 
-I have a very weird problem with sleep on this machine (and I have no idea how to solve it). Essentially, at this point, it can go to sleep, either from the sleep option in the Apple menu or from closing the lid. It will stay in sleep mode until I wake it by opening the lid or hitting the power button (I needed to patch out USB wake so the keyboard will not wake it). However, about 15 seconds after it wakes up, it immediately goes back to sleep. It will keep doing this over and over until I do a cold reboot, and then it will act fine. I've tried a few things like AcpiPoller and a patch to monitor the lid status, no luck there. IOElectrify was also an attempt to fix issues with the thunderbolt controller, but it did not help either. You can probably remove both of those kexts without any issue.
+Without any patching, sleep works for the most part. You can trigger sleep by shutting the lid and wake it by opening the lid, much like a real mac. However, due to some EC issue, the lid is reported as closed after the computer wakes up. This causes it to go back to sleep about 10 seconds after it wakes up, making the computer almost unusable. Additionally, since the computer thinks the lid is closed, it'll keep the backlight off. This can be remedied by removing the PNLF SSDT. 
+
+However, with the last DSDT patch in the config.plist, I force the lid status to "open" right as the computer wakes up. This means it won't go back to sleep and also the screen is not black after waking. I can keep brightness control and also have proper sleep/wake. I'm quite happy to have finally fixed this issue.
+
+If you're interested in how this is done, I tried many different manual DSDT edits until I got the behavior I wanted. This only requires one small change near the end of the `RWAK` function, which is called whever the computer wakes up. The offending code is this:
+
+```
+Store (\_SB.PCI0.LPCB.EC0.PSTA, Local0)
+And (Local0, 0x04, Local0)
+ShiftRight (Local0, 0x02, Local0)
+Store (Local0, LIDS)
+Notify (\_SB.PCI0.LPCB.EC0.LID0, 0x80)
+```
+
+`PSTA` is a register within the `EC`'s OperatingRegion that has one bit that exposes the physical status of the `LID0` device to the ACPI. This code copies that register and extracts bit 3 and stores it in the global variable `LIDS` (lid status), with a 0 for closed an a 1 for open. It then Notifies the `LID0` device causing the OS to check for the new value. The problem with this is that somehow it was returning 0 after every wake, causing the computer to want to go back to sleep.
+
+In order to have a clean patch and not have a modified DSDT injected via clover (a messy solution at best), I needed to rewrite this code to set `LIDS` to 1 *before* the Notify is called. Additionally, for OpenCore to be able to patch this, the find and replace patches need to be the same length. This means I need to have the same length of ACPI machine instructions. As it turns out, this is not hard. I simply leave the first three lines as they are, and then instead of Storing the Local0 value they calculated, I just store the ACPI constant One. The fourth line now looks like this:
+
+```
+Store (One, LIDS)
+```
+
+This patch works great in DSDT form and it also retains the exact same length so both Clover and OpenCore can patch it on the fly. I do need to be careful however, as simply patching the Store instruction messes up other things. In the EC0 device, there are two EC query methods that execute some similar code to the original block. The difference is that because the queries are within the scope of the EC, they have a different Notify instruction. My patch had to include the first part of the Notify instruction to differentiate it fron the other two. It turns out that patching the other two breaks lid wake and sleep, which I did not want to do.
+
 
 Trackpad
 ----
 
-It's a Synaptics 1A586757 multitouch I2C trackpad, so I simply used VoodooI2C plus VoodooI2CHID with an SSDT-XOSI to enable the I2C controller. All the native multitouch gestures work great, even three finger click-and-drag. Its not quite as sensitive as my MBP trackpad, but its better than I expected on a hackintosh. Right click is a little finnicky if you don't tap with two fingers. For 10.14.5, I needed to [force load a system kext](https://github.com/alexandred/VoodooI2C/issues/125#issuecomment-461927427) for VoodooI2C to load. I'm also using an old version as the newest one has some bugs with click and drag on this trackpad.
+It's a Synaptics 1A586757 multitouch I2C trackpad, so I simply used VoodooI2C plus VoodooI2CHID with an SSDT-XOSI to enable the I2C controller. All the native multitouch gestures work great, even three finger click-and-drag. Its not quite as sensitive as my MBP trackpad, but its better than I expected on a hackintosh. Right click is a little finnicky if you don't tap with two fingers. I'm also using an old version of Voodoo as the newest one has some bugs with click and drag on this trackpad.
 
 Touchscreen
 ----
@@ -77,7 +100,7 @@ The soundcard, according to the PCI ID, seems to be a Realtek ALC298. This is su
 USB
 ----
 
-Using just USBInjectAll and XHCI-unsupported, I had full USB capabilities out of the box on the USB 3 ports. I did decide to map the ports anyway with an SSDT-UIAC to hide the webcam and some unused ports. Delete this file if you have issues with USB. I do not own any USB-C devices to test the USB 3.1 port with.
+Using just USBInjectAll and XHCI-unsupported, I had full USB capabilities out of the box on the USB 3 ports. I did decide to map the ports anyway with an SSDT-UIAC to hide the webcam and some unused ports. Delete this file if you have issues with USB. As for the USB C port, it's on a different controller which is only active when Thunderbolt is enabled. As clover cannot boot when my TB controller is enabled, you would need to use OC if you wanted any USB-C functionality. Additionally, it seems to break after I sleep, perhaps this is something that IOElectrify can rectify.
 
 I used the [USBMap](https://github.com/corpnewt/USBMap) script to create the UIAC and USBX SSDTs. You may need to run it yourself to properly map USB ports if they end up being different on your system.
 
@@ -85,6 +108,11 @@ Display Outs
 ----
 
 The laptop has an HDMI port and a DisplayPort-over-Thunderbolt 3 as display outputs. I don't have any TB3-DP converters to test that output, but I have gotten HDMI working. Like the internal display, it does flicker at high resolutions and doesn't seem to support 4K60 but it works alright for now.
+
+Thunderbolt
+---
+
+I have been beta testing al3x's TbtForcePower.efi to enable the thunderbolt controller in macOS. Having the TB controller enabled is required to use USB-C devices in that port as well. I do not have any TB3 devices that I can test with, but I do have some USB-C devices and it's somewhat usable. See the USB section for USB-C results. On my laptop I needed to boot with TB fully disabled in the UEFI because otherwise Clover hangs at "scan entries", so all this testing has been done with OpenCore.
 
 Battery
 ----
@@ -113,7 +141,7 @@ Stuff in this repo
 
 The `EFI` folder should be a minimal but complete EFI partition with Clover and all my kexts, config, and ACPI patches. On another Blade Stealth, you may be able to drop this in and get a working system, though that is not guaranteed. You should be able to take ideas from the configuration for your own build. If you use the config.plist, you will want to change your serial number, board serial, and SmUUID (can be done with [this](https://github.com/corpnewt/GenSMBIOS)).
 
-The `EFI_OpenCore` folder is an experimental OpenCore configuration for the Stealth, based mostly on the Clover setup. Beware that OpenCore is much less user friendly and can cause issues with dual boots and Apple accounts. Use at your own risk.
+The `EFI_OpenCore` folder is an experimental OpenCore configuration for the Stealth, based mostly on the Clover setup. Beware that OpenCore is much less user friendly and can cause issues with dual boots and Apple accounts. Use at your own risk. It may also be out of date with the config of the Clover version, as I am not ready to switch over to it on my triple-boot laptop.
 
 The `SSDTs` folder has the uncompiled versions of the SSDTs that I had to create for various hotpatches.
 
