@@ -114,7 +114,7 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>lilucpu=9 debug=0x100</string>
+		<string>lilucpu=9</string>
 		<key>DefaultVolume</key>
 		<string>MacBlade</string>
 		<key>NeverHibernate</key>
@@ -193,7 +193,7 @@
 		<key>ScreenResolution</key>
 		<string>3200x1800</string>
 		<key>Theme</key>
-		<string>clovy</string>
+		<string>Mojave4k</string>
 	</dict>
 	<key>Graphics</key>
 	<dict>

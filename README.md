@@ -6,11 +6,11 @@ Razer Blade Stealth (2018) hackintosh
 Intro
 ---
 
-Hey there, I got several requests to release my ESP and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual macOS operating system files.
+Hey there, I got several requests to release my EFI and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual mac operating system files.
 
 **Disclaimer:** I am not responsible if you mess up your computer with this setup. I recommend reading everything so you know what you're getting yourself into.
 
-This EFI (both the Clover and OpenCore versions) may in theory be compatible with Catalina but you're on your own if you try to install it.
+This EFI (both the Clover and OpenCore versions) should be compatible with Catalina but you're on your own if you try to install it.
 
 Here is the hardware specification of my Blade as I bought it:
 
@@ -81,6 +81,8 @@ Store (One, LIDS)
 
 This patch works great in DSDT form and it also retains the exact same length so both Clover and OpenCore can patch it on the fly. I do need to be careful however, as simply patching the Store instruction messes up other things. In the EC0 device, there are two EC query methods that execute some similar code to the original block. The difference is that because the queries are within the scope of the EC, they have a different Notify instruction. My patch had to include the first part of the Notify instruction to differentiate it fron the other two. It turns out that patching the other two breaks lid wake and sleep, which I did not want to do.
 
+Be aware that if you use TbtForcePower (not included, discussed in the Thunderbolt section) with your thunderbolt port enabled in the UEFI, it will likely break sleep due to USB errors.
+
 
 Trackpad
 ----
@@ -112,7 +114,7 @@ The laptop has an HDMI port and a DisplayPort-over-Thunderbolt 3 as display outp
 Thunderbolt
 ----
 
-I have been beta testing al3x's [TbtForcePower.efi](https://github.com/al3xtjames/ThunderboltPkg) to enable the thunderbolt controller in macOS. Having the TB controller enabled is required to use USB-C devices in that port as well. I do not have any TB3 devices that I can test with, but I do have some USB-C devices and it's somewhat usable. See the USB section for USB-C results. On my laptop I needed to boot with TB fully disabled in the UEFI because otherwise Clover hangs at "scan entries", so all this testing has been done with OpenCore.
+I have been beta testing al3x's [TbtForcePower.efi](https://github.com/al3xtjames/ThunderboltPkg) to enable the thunderbolt controller in macOS. Having the TB controller enabled is required to use USB-C devices in that port as well. I do not have any TB3 devices that I can test with, but I do have some USB-C devices and it's somewhat usable. See the USB section for USB-C results. 
 
 Battery
 ----
