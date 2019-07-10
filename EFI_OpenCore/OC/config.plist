@@ -303,6 +303,32 @@
 				<key>TableSignature</key>
 				<data>RFNEVA==</data>
 			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>fix auto wake by setting LIDS to One at the end of RWAK</string>
+				<key>Count</key>
+				<integer>1</integer>
+				<key>Enabled</key>
+				<true/>
+				<key>Find</key>
+				<data>e2AKBGB6YAoCYHBgTElEU4Zc</data>
+				<key>Replace</key>
+				<data>e2AKBGB6YAoCYHABTElEU4Zc</data>
+				<key>Limit</key>
+				<integer>0</integer>
+				<key>Mask</key>
+				<data></data>
+				<key>OemTableId</key>
+				<data></data>
+				<key>ReplaceMask</key>
+				<data></data>
+				<key>Skip</key>
+				<integer>0</integer>
+				<key>TableLength</key>
+				<integer>0</integer>
+				<key>TableSignature</key>
+				<data>RFNEVA==</data>
+			</dict>
 		</array>
 	</dict>
 	<key>DeviceProperties</key>
@@ -626,11 +652,13 @@
 		<key>Boot</key>
 		<dict>
 			<key>ShowPicker</key>
-			<true/>
-			<key>Timeout</key>
-			<integer>5</integer>
+			<false/>
 			<key>UsePicker</key>
 			<true/>
+			<key>Timeout</key>
+			<integer>3</integer>
+			<key>Resolution</key>
+			<string>Max</string>
 		</dict>
 		<key>Security</key>
 		<dict>
@@ -647,7 +675,7 @@
 				<key>Comment</key>
 				<string>Not signed for security reasons</string>
 				<key>Enabled</key>
-				<false/>
+				<true/>
 				<key>Path</key>
 				<string>Shell64U.efi</string>
 			</dict>
@@ -660,7 +688,7 @@
 			<key>7C436110-AB2A-4BBB-A880-FE41995C9F82</key>
 			<dict>
 				<key>boot-args</key>
-				<string>lilucpu=9 debug=0x100</string>
+				<string>lilucpu=9</string>
 				<key>csr-active-config</key>
 				<data>ZwAAAA==</data>
 			</dict>
@@ -708,8 +736,12 @@
 			<string>HFSPlus.efi</string>
 			<string>ApfsDriverLoader.efi</string>
 			<string>AptioMemoryFix.efi</string>
-			<string>TbtForcePower.efi</string>
 		</array>
+		<key>Quirks</key>
+		<dict>
+			<key>SanitiseClearScreen</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>

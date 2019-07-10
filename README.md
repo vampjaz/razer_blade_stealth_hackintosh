@@ -110,9 +110,9 @@ Display Outs
 The laptop has an HDMI port and a DisplayPort-over-Thunderbolt 3 as display outputs. I don't have any TB3-DP converters to test that output, but I have gotten HDMI working. Like the internal display, it does flicker at high resolutions and doesn't seem to support 4K60 but it works alright for now.
 
 Thunderbolt
----
+----
 
-I have been beta testing al3x's TbtForcePower.efi to enable the thunderbolt controller in macOS. Having the TB controller enabled is required to use USB-C devices in that port as well. I do not have any TB3 devices that I can test with, but I do have some USB-C devices and it's somewhat usable. See the USB section for USB-C results. On my laptop I needed to boot with TB fully disabled in the UEFI because otherwise Clover hangs at "scan entries", so all this testing has been done with OpenCore.
+I have been beta testing al3x's [TbtForcePower.efi](https://github.com/al3xtjames/ThunderboltPkg) to enable the thunderbolt controller in macOS. Having the TB controller enabled is required to use USB-C devices in that port as well. I do not have any TB3 devices that I can test with, but I do have some USB-C devices and it's somewhat usable. See the USB section for USB-C results. On my laptop I needed to boot with TB fully disabled in the UEFI because otherwise Clover hangs at "scan entries", so all this testing has been done with OpenCore.
 
 Battery
 ----
@@ -152,4 +152,4 @@ The `images` folder has, among other things, the desktop I edited based on the [
 Conclusion?
 ---
 
-Its a pretty good laptop, one might almost mistake it for a dark Macbook. I'm quite satasfied with it, though I would really like to get sleep working. If you want help you can probably find me on the Hackintosh discord: https://discord.gg/uvWNGKV - `@LGA#1151`. Also, if you figure out sleep, please let me know!
+Its a pretty good laptop, one might almost mistake it for a dark Macbook. I'm quite satisfied with it. If you want help you can probably find me on the Hackintosh discord: https://discord.gg/uvWNGKV - `@LGA#1151`. 
