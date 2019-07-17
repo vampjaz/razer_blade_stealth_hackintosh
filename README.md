@@ -38,7 +38,7 @@ The [i7-8550U](https://ark.intel.com/products/122589/Intel-Core-i7-8550U-Process
 GPU
 ----
 
-All I needed to do is inject a `device-id` in the GPU properties section and use `lilucpu=9` as a boot arg to get full acceleration, including video decode. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it seems to flicker at that resolution. I don't use that however, I simply run at 2560x1440 using [RDM](https://github.com/usr-sse2/RDM) which is about 125% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the Clovy theme looks very sharp.
+All I needed to do is inject a `device-id` in the GPU properties section and use `lilucpu=9` as a boot arg to get full acceleration, including video decode. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it seems to flicker at that resolution. I don't use that however, I simply run at 2560x1440 using [RDM](https://github.com/usr-sse2/RDM) which is about 125% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the theme looks very sharp.
 
 SSD
 ----
@@ -87,22 +87,22 @@ Be aware that if you use TbtForcePower (not included, discussed in the Thunderbo
 Trackpad
 ----
 
-It's a Synaptics 1A586757 multitouch I2C trackpad, so I simply used VoodooI2C plus VoodooI2CHID with an SSDT-XOSI to enable the I2C controller. All the native multitouch gestures work great, even three finger click-and-drag. Its not quite as sensitive as my MBP trackpad, but its better than I expected on a hackintosh. Right click is a little finnicky if you don't tap with two fingers. I'm also using an old version of Voodoo as the newest one has some bugs with click and drag on this trackpad.
+It's a Synaptics 1A586757 multitouch I2C trackpad, so I simply used VoodooI2C plus VoodooI2CHID with an SSDT-XOSI to enable the I2C controller. All the native multitouch gestures work great, even three finger click-and-drag. Its not quite as sensitive as my MBP trackpad, but its better than I expected on a hackintosh. Right click is a little finnicky if you don't tap with two fingers. I'm also using an old version of Voodoo as the newest one has some bugs with click and drag on this trackpad. However, I have heard that others with this laptop have been able to use the latest VoodooI2C just fine with properly working right click.
 
 Touchscreen
 ----
 
-The touchscreen worked fine out of the box for basic pointing. Additionally, when I installed the VoodooI2C drivers, I also started to get multitouch support on the touchscreen. It acts similar to the trackpad gestures, being able to switch desktops (4 finger drag) and scroll (2 finger drag).
+The USB touchscreen worked fine out of the box for basic pointing. Additionally, when I installed the VoodooI2C drivers, I also started to get multitouch support on the touchscreen. It acts similar to the trackpad gestures, being able to switch desktops (4 finger drag) and scroll (2 finger drag).
 
 Sound
 ----
 
-The soundcard, according to the PCI ID, seems to be a Realtek ALC298. This is supported by [AppleALC](https://github.com/acidanthera/AppleALC/wiki/Supported-codecs) with layout ID 29, which I patched in through device properties. Both the internal speakers and headphone jack work, and switching between them is automatic.
+The soundcard, according to the PCI ID, seems to be a Realtek ALC298. This is supported by [AppleALC](https://github.com/acidanthera/AppleALC/wiki/Supported-codecs) with layout ID 29, which I patched in through device properties. Both the internal speakers and headphone jack work, and switching between them is automatic. Microphone also seems to work, unlike some other laptops I've heard about.
 
 USB
 ----
 
-Using just USBInjectAll and XHCI-unsupported, I had full USB capabilities out of the box on the USB 3 ports. I did decide to map the ports anyway with an SSDT-UIAC to hide the webcam and some unused ports. Delete this file if you have issues with USB. As for the USB C port, it's on a different controller which is only active when Thunderbolt is enabled. As clover cannot boot when my TB controller is enabled, you would need to use OC if you wanted any USB-C functionality. Additionally, it seems to break after I sleep, perhaps this is something that IOElectrify can rectify.
+Using just USBInjectAll, I had full USB capabilities out of the box on the USB 3 ports. I did decide to map the ports anyway with an SSDT-UIAC to hide the webcam and some unused ports. Delete this file if you have issues with USB. As for the USB C port, it's on a different controller which is only active when Thunderbolt is enabled. As clover cannot boot when my TB controller is enabled, you would need to use OC if you wanted any USB-C functionality. Additionally, it seems to break after I sleep, perhaps this is something that IOElectrify can rectify.
 
 I used the [USBMap](https://github.com/corpnewt/USBMap) script to create the UIAC and USBX SSDTs. You may need to run it yourself to properly map USB ports if they end up being different on your system.
 
@@ -114,7 +114,9 @@ The laptop has an HDMI port and a DisplayPort-over-Thunderbolt 3 as display outp
 Thunderbolt
 ----
 
-I have been beta testing al3x's [TbtForcePower.efi](https://github.com/al3xtjames/ThunderboltPkg) to enable the thunderbolt controller in macOS. Having the TB controller enabled is required to use USB-C devices in that port as well. I do not have any TB3 devices that I can test with, but I do have some USB-C devices and it's somewhat usable. See the USB section for USB-C results. 
+I have been beta testing al3x's [TbtForcePower.efi](https://github.com/al3xtjames/ThunderboltPkg) to enable the thunderbolt controller in macOS. Having the TB controller enabled is required to use USB-C devices in that port as well. I do not have any TB3 devices that I can test with, but I do have some USB-C devices and it's somewhat usable. See the USB section for USB-C results. This file is not included because it interferes with sleep.
+
+**Note:** in my experience, with Thunderbolt enabled in the UEFI, some Clover vector themes, like Clovy, seem to run out of memory and hang Clover. If you get stuck on `scan entries`, either use a legacy theme (like the Mojave4k one included in this repo) or disable Thunderbolt in the firmware.
 
 Battery
 ----
@@ -137,6 +139,8 @@ In the UEFI firmware, I needed to disable these options to get a usable system:
 - Secure boot
 - Fast boot
 - Launch CSM
+
+Thuderbolt can be turned on but it causes a number of issues and doesn't seem to work in macOS anyway (as reported by someone who tried a TB device on this computer).
 
 Stuff in this repo
 ---
