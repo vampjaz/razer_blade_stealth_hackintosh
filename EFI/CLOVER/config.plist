@@ -81,6 +81,16 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
+					<string>fix GPRW(0x09,0x04) instant wake (some Blades need this one instead)</string>
+					<key>Disabled</key>
+					<true/>
+					<key>Find</key>
+					<data>R1BSVwoJCgQ=</data>
+					<key>Replace</key>
+					<data>R1BSVwoJCgA=</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
 					<string>fix auto wake by setting LIDS to One at the end of RWAK</string>
 					<key>Disabled</key>
 					<false/>
