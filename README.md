@@ -108,7 +108,13 @@ Sound
 
 The soundcard, according to the PCI ID, seems to be a Realtek ALC298. This is supported by [AppleALC](https://github.com/acidanthera/AppleALC/wiki/Supported-codecs) with layout ID 29, which I patched in through device properties. Both the internal speakers and headphone jack work, and switching between them is automatic. Microphone also seems to work, unlike some other laptops I've heard about.
 
-Sometimes, usually after sleep, my audio breaks and becomes distorted. This mostly happens on the headphone output, speakers are rarely affected. I have included CodecCommander in this repo but I don't think it's configured right, as I still encounter distortion randomly. 
+CodecCommander is included, and the SSDT-CDEC contains a config for my ALC298 to fix distorted audio after sleep. I found this [config](https://bitbucket.org/RehabMan/os-x-eapd-codec-commander/src/master/SSDT-ALC298.dsl) in Rehabman's repo, which is equivalent to running the following on wake:
+
+```
+hda-verb 0x18 SET_PIN_WIDGET_CONTROL 0x22
+hda-verb 0x1a SET_PIN_WIDGET_CONTROL 0x23
+hda-verb 0x21 SET_UNSOLICITED_ENABLE 0x83
+```
 
 USB
 -----
