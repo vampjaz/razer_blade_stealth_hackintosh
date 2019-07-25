@@ -25,10 +25,45 @@ __**Razer Blade Stealth 2018**__
 - **Soundcard** : Realtek ALC298
 - **Battery** : 53.6 Wh
 
+However I replaced the SSD with an Samsung 970 EVO and the wifi card with a Lenovo 04X6020.
+
 Hardware compatibility
 ---
 
-If you're familiar with hackintosh hardware compatibility, you will notice there are a few issues there. Lets look at the hardware compatibility that I've so far gotten to work:
+TL;DR - 
+
+**What works:**
+
+- CPU power management
+- Readng CPU temperature
+- GPU acceleration and video codecs
+- SSD **[after being replaced]**
+- Wireless (wifi, bt, Continuity, Airdrop) **[after being replaced]**
+- Sleep, lid sleep and lid wake
+- Trackpad including gestures
+- Touchscreen, also with gestures
+- Sound through headphone jack and speakers (including persistence through sleep)
+- All USB ports except the USB-C
+- Screen full resolution, brightness
+- HDMI (some graphical glitches at certain resolutions, but they come and go)
+- Battery precentage, charging
+- Changing the keyboard color through some custom apps
+- iMessage and iCloud (YMMV)
+
+**What does not work:**
+
+- Thunderbolt 3
+- USB-C functionality on the TB3 port
+- Booting with OpenCore - there are stability issues
+
+**Not tested:**
+
+- Internal webcam (I disabled it)
+- Displayport output on the TB3 port
+- Running virtual machines
+- Shaving with it
+
+Much more detailed notes to follow...
 
 CPU
 -----
@@ -40,7 +75,7 @@ The [i7-8550U](https://ark.intel.com/products/122589/Intel-Core-i7-8550U-Process
 GPU
 -----
 
-All I needed to do is inject a `device-id` in the GPU properties section and use `lilucpu=9` as a boot arg to get full acceleration, including video decode. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it seems to flicker at that resolution. I don't use that however, I simply run at 2560x1440 using [RDM](https://github.com/usr-sse2/RDM) which is about 125% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the theme looks very sharp.
+All I needed to do is inject a `device-id` in the GPU properties section and use `lilucpu=9` as a boot arg to get full acceleration, including video decode. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it will occasionally flicker at that resolution. I don't use that however, I simply run at 2560x1440 using [RDM](https://github.com/usr-sse2/RDM) which is about 125% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the theme looks very sharp.
 
 ![system profiler gpu screenshot](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/gpu_info.png)
 
