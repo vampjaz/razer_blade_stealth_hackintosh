@@ -102,6 +102,8 @@ Sleep
 
 Without any patching, sleep works for the most part. You can trigger sleep by shutting the lid and wake it by opening the lid, much like a real mac. However, due to some EC issue, the lid is reported as closed after the computer wakes up. This causes it to go back to sleep about 10 seconds after it wakes up, making the computer almost unusable. Additionally, since the computer thinks the lid is closed, it'll keep the backlight off. This can be partially remedied by removing the PNLF SSDT. 
 
+I had some issues with USB devices causing instant wake, I patched GPRW calls (see the two patches in the DSDT Patches section of the plist) to prevent this from happening, although that prevents some USB devices from waking the computer for example when you tap the keyboard to wake. 
+
 However, with the last DSDT patch in the config.plist, I force the lid status to "open" right as the computer wakes up. This means it won't go back to sleep and also the screen is not black after waking. I can keep brightness control and also have proper sleep/wake. I'm quite happy to have finally fixed this issue.
 
 If you're interested in how this is done, I tried many different manual DSDT edits until I got the behavior I wanted. This only requires one small change near the end of the `RWAK` function, which is called whever the computer wakes up. The offending code is this:

@@ -61,7 +61,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>(audio) HDAS->HDEF (needed for CodecCommander ssdt)</string>
+					<string>(audio) HDAS-&gt;HDEF (needed for CodecCommander ssdt)</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -88,6 +88,16 @@
 					<data>R1BSVwptCgQ=</data>
 					<key>Replace</key>
 					<data>R1BSVwptCgA=</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>fix GPRW(0x09,0x04) instant wake (some Blades need this one instead)</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>R1BSVwoJCgQ=</data>
+					<key>Replace</key>
+					<data>R1BSVwoJCgA=</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
