@@ -91,13 +91,13 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>fix GPRW(0x09,0x04) instant wake (some Blades need this one instead)</string>
+					<string>attempt to fix GPRW(0x69,0x04) instant wake</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
-					<data>R1BSVwoJCgQ=</data>
+					<data>R1BSVwppCgQ=</data>
 					<key>Replace</key>
-					<data>R1BSVwoJCgA=</data>
+					<data>R1BSVwppCgA=</data>
 				</dict>
 				<dict>
 					<key>Comment</key>

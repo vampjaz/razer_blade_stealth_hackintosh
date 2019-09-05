@@ -6,7 +6,7 @@ Razer Blade Stealth (2018) hackintosh
 Intro
 ---
 
-Hey there, I got several requests to release my EFI and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual mac operating system files. The only system files I modified were the asset files needed to change the About This Mac display.
+Hey there, I got several requests to release my EFI and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual mac operating system files. The only system files I modified were the asset files needed to change the About This Mac display, and the screen resoltion overrides to allow me to run the internal display at 5K HiDPI.
 
 **Disclaimer:** I am not responsible if you mess up your computer with this setup. I recommend reading everything so you know what you're getting yourself into.
 
@@ -37,7 +37,7 @@ TL;DR -
 - CPU power management
 - Readng CPU temperature
 - GPU acceleration and video codecs
-- SSD **[after being replaced]**
+- SSD with full speed **[after being replaced]**
 - Wireless (wifi, bt, Continuity, Airdrop) **[after being replaced]**
 - Sleep, lid sleep and lid wake
 - Trackpad including gestures
@@ -47,7 +47,7 @@ TL;DR -
 - Screen full resolution, brightness
 - HDMI (some graphical glitches at certain resolutions, but they come and go)
 - Battery precentage, charging
-- Changing the keyboard color through some custom apps
+- Changing the keyboard color through some custom apps, also enabling the logo light
 - iMessage and iCloud (YMMV)
 
 **What does not work:**
@@ -75,7 +75,9 @@ The [i7-8550U](https://ark.intel.com/products/122589/Intel-Core-i7-8550U-Process
 GPU
 -----
 
-All I needed to do is inject a `device-id` in the GPU properties section and use `lilucpu=9` as a boot arg to get full acceleration, including video decode. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it will occasionally flicker at that resolution. I don't use that however, I simply run at 2560x1440 using [RDM](https://github.com/usr-sse2/RDM) which is about 125% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the theme looks very sharp.
+All I needed to do is inject a `device-id` in the GPU properties section and use `lilucpu=9` as a boot arg to get full acceleration, including video decode. I can run it at the full 3200x1800 resolution (or 1600x900 HiDPI mode) and get acceleration, but it will occasionally flicker at that resolution. I don't use that however, I simply run at 2560x1440 using [RDM](https://github.com/usr-sse2/RDM) which is about 125% scaling, giving me the amount of screen space I want. There is no flickering at this resolution. I even get full resolution in Clover, so the theme looks very sharp. I changed the unifiedmem on the gpu to allocate 2GB to it.
+
+A note about the flickering issue: lately I have noticed that on boot it will flicker at a high resolution but if I sleep and wake, it goes away. If you experience flickering on this laptop and have working sleep, try sleeping for a minute and waking back up. Have been running 5120x2880 HiDPI just fine.
 
 ![system profiler gpu screenshot](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/gpu_info.png)
 
@@ -102,9 +104,9 @@ Sleep
 
 Without any patching, sleep works for the most part. You can trigger sleep by shutting the lid and wake it by opening the lid, much like a real mac. However, due to some EC issue, the lid is reported as closed after the computer wakes up. This causes it to go back to sleep about 10 seconds after it wakes up, making the computer almost unusable. Additionally, since the computer thinks the lid is closed, it'll keep the backlight off. This can be partially remedied by removing the PNLF SSDT. 
 
-I had some issues with USB devices causing instant wake, I patched GPRW calls (see the two patches in the DSDT Patches section of the plist) to prevent this from happening, although that prevents some USB devices from waking the computer for example when you tap the keyboard to wake. 
+I had some issues with USB devices causing instant wake, I patched GPRW calls (see the two patches in the DSDT Patches section of the plist) to prevent this from happening, although that prevents some USB devices from waking the computer for example when you tap the keyboard to wake. Additionally, I had to disable network wake in Energy Saver and bluetooth wake in the advanced section of bluetooth preferences. I'm still tracking down a few rare random wakes. The SSDT-DLAN adds a status method to the GLAN device to disable it as that was referenced a couple times in the wake reason.
 
-However, with the last DSDT patch in the config.plist, I force the lid status to "open" right as the computer wakes up. This means it won't go back to sleep and also the screen is not black after waking. I can keep brightness control and also have proper sleep/wake. I'm quite happy to have finally fixed this issue.
+With the last DSDT patch in the config.plist, I force the lid status to "open" right as the computer wakes up. This means it won't go back to sleep and also the screen is not black after waking. I can keep brightness control and also have proper sleep/wake. I'm quite happy to have finally fixed this issue.
 
 If you're interested in how this is done, I tried many different manual DSDT edits until I got the behavior I wanted. This only requires one small change near the end of the `RWAK` function, which is called whever the computer wakes up. The offending code is this:
 
@@ -128,12 +130,16 @@ This patch works great in DSDT form and it also retains the exact same length so
 
 Be aware that if you use TbtForcePower (not included, discussed in the Thunderbolt section) with your thunderbolt port enabled in the UEFI, it will likely break sleep due to USB errors. Also I have heard from some Stealth owners that their DSDT does not reference `LIDS` anywhere in `RWAK`. This means the sleep fix may not work for everyone.
 
+Per another person with a Stealth, their DSDT did not contain the relevant lid code in RWAK so my patch did not work. However, they manually edited their DSDT to add the line setting `LIDS` to One at the end of the `RWAK` method and it fixed their sleep issue, so look in your DSDT to see if this is the case.
+
 ![diffmerge of the dsdt sleep patch](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/dsdt_edit_sleep.png)
 
 Trackpad
 -----
 
 It's a Synaptics 1A586757 multitouch I2C trackpad, so I simply used VoodooI2C plus VoodooI2CHID with an SSDT-XOSI to enable the I2C controller. All the native multitouch gestures work great, even three finger click-and-drag. Its not quite as sensitive as my MBP trackpad, but its better than I expected on a hackintosh. Right click is a little finnicky if you don't tap with two fingers. I'm also using an old version of Voodoo as the newest one has some bugs with click and drag on this trackpad. However, I have heard that others with this laptop have been able to use the latest VoodooI2C just fine with properly working right click.
+
+Note about VoodooI2C: a common issue I've heard from other users is the kext simply not loading even with the proper DSDT patches. While unconventional, it seems that rebuilding the kext cache (even if you do not install any third part kexts in there) actually fixes this and allows voodoo to load. 
 
 Touchscreen
 -----
@@ -165,14 +171,14 @@ I used the [USBMap](https://github.com/corpnewt/USBMap) script to create the UIA
 Display Outs
 -----
 
-The laptop has an HDMI port and a DisplayPort-over-Thunderbolt 3 as display outputs. I don't have any TB3-DP converters to test that output, but I have gotten HDMI working. Like the internal display, it does flicker at high resolutions and doesn't seem to support 4K60 but it works alright for now.
+The laptop has an HDMI port and a DisplayPort-over-Thunderbolt 3 as display outputs. I don't have any TB3-DP converters to test that output, but I have gotten HDMI working. Like the internal display, it sometimes flickers at high resolutions and doesn't seem to support 4K60 but it works alright for now.
 
 ![displays in system profiler and ioreg](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/display_info.png)
 
 Thunderbolt
 -----
 
-I have been beta testing al3x's [TbtForcePower.efi](https://github.com/al3xtjames/ThunderboltPkg) to enable the thunderbolt controller in macOS. Having the TB controller enabled is required to use USB-C devices in that port as well. I do not have any TB3 devices that I can test with, but I do have some USB-C devices and it's somewhat usable. See the USB section for USB-C results. This file is not included because it interferes with sleep.
+I have been beta testing al3x's [TbtForcePower.efi](https://github.com/al3xtjames/ThunderboltPkg) to enable the thunderbolt controller in macOS. Having the TB controller enabled is required to use USB-C devices in that port as well, since the TB port has its own USB controller. I do not have any TB3 devices that I can test with, but I do have some USB-C devices and it's somewhat usable. See the USB section for USB-C results. This file is not included because it interferes with sleep.
 
 **Note:** in my experience, with Thunderbolt enabled in the UEFI, some Clover vector themes, like Clovy, seem to run out of memory and hang Clover. If you get stuck on `scan entries`, either use a legacy theme (like the Mojave4k one included in this repo) or disable Thunderbolt in the firmware.
 
@@ -209,7 +215,7 @@ Thuderbolt can be turned on but it causes a number of issues and doesn't seem to
 Stuff in this repo
 ---
 
-The `EFI` folder should be a minimal but complete EFI partition with Clover and all my kexts, config, and ACPI patches. On another Blade Stealth, you may be able to drop this in and get a working system, though that is not guaranteed. You should be able to take ideas from the configuration for your own build. If you use the config.plist, you will want to change your serial number, board serial, and UUIDs (can be done with [this tool](https://github.com/corpnewt/GenSMBIOS)).
+The `EFI` folder should be a minimal but complete EFI partition with Clover and all my kexts, config, and ACPI patches. On another Blade Stealth, you *may* be able to drop this in and get a working system, though that is not guaranteed and I don't provide support for it. You should be able to take ideas from the configuration for your own build. If you use the config.plist, you will want to change your serial number, board serial, and UUIDs (can be done with [this tool](https://github.com/corpnewt/GenSMBIOS)). (Also for those paying attention, the serials in the config are randomly generated and not the ones I use on my actual laptop.)
 
 The `EFI_OpenCore` folder is an experimental OpenCore configuration for the Stealth, based mostly on the Clover setup. Beware that OpenCore is much less user friendly and can cause issues with dual boots and Apple accounts. Use at your own risk. It may also be out of date with the config of the Clover version, as I am not ready to switch over to it on my laptop. (OpenCore causes VoodooI2C to crash randomly)
 
@@ -222,4 +228,4 @@ The `images` folder has, among other things, the desktop I edited based on the [
 Conclusion?
 ---
 
-Its a pretty good laptop, one might almost mistake it for a dark Macbook. I'm quite satisfied with it. If you want help you can probably find me on the Hackintosh discord: https://discord.gg/uvWNGKV - `@LGA#1151`. 
+Its a pretty good laptop, one might almost mistake it for a dark Macbook. I'm quite satisfied with it. If you want help you can probably find me on the Hackintosh discord: https://discord.gg/uvWNGKV - `@Jazzy#5637`. 
