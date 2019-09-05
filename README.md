@@ -43,24 +43,25 @@ TL;DR -
 - Trackpad including gestures
 - Touchscreen, also with gestures
 - Sound through headphone jack and speakers (including persistence through sleep)
+- Internal microphone
 - All USB ports except the USB-C
 - Screen full resolution, brightness
 - HDMI (some graphical glitches at certain resolutions, but they come and go)
 - Battery precentage, charging
 - Changing the keyboard color through some custom apps, also enabling the logo light
+- Internal webcam with Facetime
+- Virtualization (VT-x)
 - iMessage and iCloud (YMMV)
 
 **What does not work:**
 
-- Thunderbolt 3
-- USB-C functionality on the TB3 port
+- Thunderbolt 3 
+- USB-C functionality on the TB3 port (it can be enabled but it breaks other things)
 - Booting with OpenCore - there are stability issues
 
 **Not tested:**
 
-- Internal webcam (I disabled it)
 - Displayport output on the TB3 port
-- Running virtual machines
 - Shaving with it
 
 Much more detailed notes to follow...
