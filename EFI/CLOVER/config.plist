@@ -21,7 +21,7 @@
 			<array>
 				<dict>
 					<key>Comment</key>
-					<string>change EC0 to EC</string>
+					<string>battery - change EC0 to EC</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -31,7 +31,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>_BIF to XBIF (in BAT0)</string>
+					<string>battery - _BIF to XBIF (in BAT0)</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -41,7 +41,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>_BST to XBST (in BAT0)</string>
+					<string>battery - _BST to XBST (in BAT0)</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -51,7 +51,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>change _OSI to XOSI</string>
+					<string>trackpad - change _OSI to XOSI</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -61,7 +61,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>(audio) HDAS-&gt;HDEF (needed for CodecCommander ssdt)</string>
+					<string>audio - change HDAS to HDEF (needed for CodecCommander ssdt)</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -71,7 +71,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>change GFX0 to IGPU</string>
+					<string>graphics - change GFX0 to IGPU</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -81,7 +81,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>fix GPRW(0x6d,0x04) instant wake</string>
+					<string>sleep - fix GPRW(0x6d,0x04) instant wake</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -91,7 +91,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>attempt to fix GPRW(0x69,0x04) instant wake</string>
+					<string>sleep - fix GPRW(0x69,0x04) instant wake</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -101,7 +101,7 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>fix auto wake by setting LIDS to One at the end of RWAK</string>
+					<string>sleep - fix auto sleep by setting LIDS to One at the end of RWAK</string>
 					<key>Disabled</key>
 					<false/>
 					<key>Find</key>
@@ -135,15 +135,13 @@
 	</dict>
 	<key>BootGraphics</key>
 	<dict>
-		<key>EFILoginHiDPI</key>
-		<integer>1</integer>
 		<key>UIScale</key>
 		<integer>2</integer>
 	</dict>
 	<key>CPU</key>
 	<dict>
 		<key>FrequencyMHz</key>
-		<integer>1800</integer>
+		<integer>2000</integer>
 	</dict>
 	<key>Devices</key>
 	<dict>
@@ -158,8 +156,6 @@
 				<key>framebuffer-con1-enable</key>
 				<integer>1</integer>
 				<key>enable-hdmi20</key>
-				<integer>1</integer>
-				<key>enable-dpcd-max-link-rate-fix</key>
 				<integer>1</integer>
 				<key>framebuffer-unifiedmem</key>
 				<data>AAAAgA==</data>
@@ -204,8 +200,6 @@
 			<key>Tool</key>
 			<true/>
 		</dict>
-		<key>ScreenResolution</key>
-		<string>3200x1800</string>
 		<key>Theme</key>
 		<string>Mojave4k</string>
 	</dict>
