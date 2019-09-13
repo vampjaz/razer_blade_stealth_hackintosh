@@ -32,14 +32,6 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>SSDT-GPRW.aml</string>
-				<key>Path</key>
-				<string>SSDT-GPRW.aml</string>
-				<key>Enabled</key>
-				<true/>
-			</dict>
-			<dict>
-				<key>Comment</key>
 				<string>SSDT-XOSI.aml</string>
 				<key>Path</key>
 				<string>SSDT-XOSI.aml</string>
@@ -115,6 +107,22 @@
 				<string>SSDT-MEM2.aml</string>
 				<key>Path</key>
 				<string>SSDT-MEM2.aml</string>
+				<key>Enabled</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>SSDT-CDEC.aml</string>
+				<key>Path</key>
+				<string>SSDT-CDEC.aml</string>
+				<key>Enabled</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>SSDT-DLAN.aml</string>
+				<key>Path</key>
+				<string>SSDT-DLAN.aml</string>
 				<key>Enabled</key>
 				<true/>
 			</dict>
@@ -123,7 +131,7 @@
 		<array>
 			<dict>
 				<key>Comment</key>
-				<string>change EC0 to EC</string>
+				<string>battery - change EC0 to EC</string>
 				<key>Count</key>
 				<integer>0</integer>
 				<key>Enabled</key>
@@ -149,59 +157,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>change GFX0 to IGPU in DSDT</string>
-				<key>Count</key>
-				<integer>0</integer>
-				<key>Enabled</key>
-				<true/>
-				<key>Find</key>
-				<data>R0ZYMA==</data>
-				<key>Replace</key>
-				<data>SUdQVQ==</data>
-				<key>Limit</key>
-				<integer>0</integer>
-				<key>Mask</key>
-				<data></data>
-				<key>OemTableId</key>
-				<data></data>
-				<key>ReplaceMask</key>
-				<data></data>
-				<key>Skip</key>
-				<integer>0</integer>
-				<key>TableLength</key>
-				<integer>0</integer>
-				<key>TableSignature</key>
-				<data>RFNEVA==</data>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>change GFX0 to IGPU in SSDT</string>
-				<key>Count</key>
-				<integer>0</integer>
-				<key>Enabled</key>
-				<true/>
-				<key>Find</key>
-				<data>R0ZYMA==</data>
-				<key>Replace</key>
-				<data>SUdQVQ==</data>
-				<key>Limit</key>
-				<integer>0</integer>
-				<key>Mask</key>
-				<data></data>
-				<key>OemTableId</key>
-				<data></data>
-				<key>ReplaceMask</key>
-				<data></data>
-				<key>Skip</key>
-				<integer>0</integer>
-				<key>TableLength</key>
-				<integer>0</integer>
-				<key>TableSignature</key>
-				<data>U1NEVA==</data>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string>change _OSI to XOSI</string>
+				<string>trackpad - change _OSI to XOSI</string>
 				<key>Count</key>
 				<integer>0</integer>
 				<key>Enabled</key>
@@ -227,15 +183,15 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>redefine GPRW as XPRW</string>
+				<string>sleep - fix GPRW(0x6d,0x04) instant wake</string>
 				<key>Count</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>Enabled</key>
 				<true/>
 				<key>Find</key>
-				<data>FEAGR1BSVw==</data>
+				<data>R1BSVwptCgQ=</data>
 				<key>Replace</key>
-				<data>FEAGWFBSVw==</data>
+				<data>R1BSVwptCgA=</data>
 				<key>Limit</key>
 				<integer>0</integer>
 				<key>Mask</key>
@@ -253,7 +209,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>in BAT0, rename _BIF to XBIF</string>
+				<string>battery - _BIF to XBIF (in BAT0)</string>
 				<key>Count</key>
 				<integer>1</integer>
 				<key>Enabled</key>
@@ -279,7 +235,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>in BAT0, rename _BST to XBST</string>
+				<string>battery - _BST to XBST (in BAT0)</string>
 				<key>Count</key>
 				<integer>1</integer>
 				<key>Enabled</key>
@@ -305,7 +261,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>fix auto wake by setting LIDS to One at the end of RWAK</string>
+				<string>sleep - fix auto sleep by setting LIDS to One at the end of RWAK</string>
 				<key>Count</key>
 				<integer>1</integer>
 				<key>Enabled</key>
@@ -331,6 +287,36 @@
 			</dict>
 		</array>
 	</dict>
+	<key>Booter</key>
+	<dict>
+		<key>Quirks</key>
+		<dict>
+			<key>AvoidRuntimeDefrag</key>
+			<true/>
+			<key>DevirtualiseMmio</key>
+			<false/>
+			<key>DisableVariableWrite</key>
+			<false/>
+			<key>DisableSingleUser</key>
+			<false/>
+			<key>DiscardHibernateMap</key>
+			<false/>
+			<key>EnableSafeModeSlide</key>
+			<true/>
+			<key>EnableWriteUnprotector</key>
+			<true/>
+			<key>ForceExitBootServices</key>
+			<false/>
+			<key>ProtectCsmRegion</key>
+			<false/>
+			<key>ProvideCustomSlide</key>
+			<true/>
+			<key>SetupVirtualMap</key>
+			<true/>
+			<key>ShrinkMemoryMap</key>
+			<false/>
+		</dict>
+	</dict>
 	<key>DeviceProperties</key>
 	<dict>
 		<key>Add</key>
@@ -344,8 +330,6 @@
 				<key>framebuffer-con1-enable</key>
 				<integer>1</integer>
 				<key>enable-hdmi20</key>
-				<integer>1</integer>
-				<key>enable-dpcd-max-link-rate-fix</key>
 				<integer>1</integer>
 				<key>framebuffer-unifiedmem</key>
 				<data>AAAAgA==</data>
@@ -543,34 +527,6 @@
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
-				<string>Contents/MacOS/SMCLightSensor</string>
-				<key>BundlePath</key>
-				<string>SMCLightSensor.kext</string>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string></string>
-				<key>MatchKernel</key>
-				<string></string>
-				<key>PlistPath</key>
-				<string>Contents/Info.plist</string>
-				<key>Enabled</key>
-				<true/>
-				<key>ExecutablePath</key>
-				<string>Contents/MacOS/BrcmPatchRAM2</string>
-				<key>BundlePath</key>
-				<string>BrcmPatchRAM2.kext</string>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string></string>
-				<key>MatchKernel</key>
-				<string></string>
-				<key>PlistPath</key>
-				<string>Contents/Info.plist</string>
-				<key>Enabled</key>
-				<true/>
-				<key>ExecutablePath</key>
 				<string>Contents/MacOS/BrcmFirmwareData</string>
 				<key>BundlePath</key>
 				<string>BrcmFirmwareData.kext</string>
@@ -588,6 +544,20 @@
 				<string></string>
 				<key>BundlePath</key>
 				<string>BrcmBluetoothInjector.kext</string>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string></string>
+				<key>MatchKernel</key>
+				<string></string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/BrcmPatchRAM2</string>
+				<key>BundlePath</key>
+				<string>BrcmPatchRAM2.kext</string>
 			</dict>
 			<dict>
 				<key>Comment</key>
@@ -617,33 +587,40 @@
 				<key>BundlePath</key>
 				<string>NoTouchID.kext</string>
 			</dict>
-		</array>
-		<key>Block</key>
-		<array>
 			<dict>
 				<key>Comment</key>
-				<string>prevent apples I2C driver from loading</string>
-				<key>Enabled</key>
-				<true/>
-				<key>Identifier</key>
-				<string>com.apple.driver.AppleIntelLpssI2C</string>
+				<string></string>
 				<key>MatchKernel</key>
 				<string></string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/CodecCommander</string>
+				<key>BundlePath</key>
+				<string>CodecCommander.kext</string>
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>prevent apples I2C driver from loading, part 2</string>
-				<key>Enabled</key>
-				<true/>
-				<key>Identifier</key>
-				<string>com.apple.driver.AppleIntelLpssI2CController</string>
+				<string></string>
 				<key>MatchKernel</key>
 				<string></string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/SystemProfilerMemoryFixup</string>
+				<key>BundlePath</key>
+				<string>SystemProfilerMemoryFixup.kext</string>
 			</dict>
 		</array>
 		<key>Quirks</key>
 		<dict>
 			<key>DisableIoMapper</key>
+			<true/>
+			<key>PanicNoKextDump</key>
 			<true/>
 		</dict>
 	</dict>
@@ -651,14 +628,18 @@
 	<dict>
 		<key>Boot</key>
 		<dict>
+			<key>ConsoleBehaviourOs</key>
+			<string>ForceGraphics</string>
+			<key>ConsoleBehaviourUi</key>
+			<string>ForceText</string>
 			<key>ShowPicker</key>
-			<false/>
+			<true/>
 			<key>UsePicker</key>
 			<true/>
 			<key>Timeout</key>
 			<integer>3</integer>
 			<key>Resolution</key>
-			<string>Max</string>
+			<string>3200x1800</string>
 		</dict>
 		<key>Security</key>
 		<dict>
@@ -688,7 +669,7 @@
 			<key>7C436110-AB2A-4BBB-A880-FE41995C9F82</key>
 			<dict>
 				<key>boot-args</key>
-				<string>lilucpu=9</string>
+				<string>lilucpu=9 -v debug=0x100</string>
 				<key>csr-active-config</key>
 				<data>ZwAAAA==</data>
 			</dict>
@@ -701,6 +682,8 @@
 	</dict>
 	<key>PlatformInfo</key>
 	<dict>
+		<key>Automatic</key>
+		<true/>
 		<key>Generic</key>
 		<dict>
 			<key>MLB</key>
@@ -716,8 +699,6 @@
 			<key>SystemUUID</key>
 			<string>4DE95146-33D0-4CF6-9949-98184271D9D9</string>
 		</dict>
-		<key>Automatic</key>
-		<true/>
 		<key>UpdateDataHub</key>
 		<true/>
 		<key>UpdateNVRAM</key>
@@ -735,10 +716,28 @@
 		<array>
 			<string>HFSPlus.efi</string>
 			<string>ApfsDriverLoader.efi</string>
-			<string>AptioMemoryFix.efi</string>
+			<string>FwRuntimeServices.efi</string>
 		</array>
 		<key>Quirks</key>
 		<dict>
+			<key>AvoidHighAlloc</key>
+			<false/>
+			<key>ClearScreenOnModeSwitch</key>
+			<false/>
+			<key>ExitBootServicesDelay</key>
+			<integer>0</integer>
+			<key>IgnoreInvalidFlexRatio</key>
+			<false/>
+			<key>IgnoreTextInGraphics</key>
+			<true/>
+			<key>ProvideConsoleGop</key>
+			<true/>
+			<key>ReleaseUsbOwnership</key>
+			<true/>
+			<key>ReplaceTabWithSpace</key>
+			<false/>
+			<key>RequestBootVarRouting</key>
+			<false/>
 			<key>SanitiseClearScreen</key>
 			<true/>
 		</dict>

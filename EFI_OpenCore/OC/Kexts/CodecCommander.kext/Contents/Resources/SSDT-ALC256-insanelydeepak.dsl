@@ -1,16 +1,10 @@
-// This SSDT demonstrates a custom configuration for ALC298.
-// It is the same data that is currently in the Info.plist
+// CodecCommander configuration for ALC256 to fix various issue 
+// repo: https://github.com/insanelydeepak/cloverHDA-for-Mac-OS-Sierra-10.12
 
-// If you had a codec that needed the same configuration, you could
-// load this SSDT in order to implement it without modifying the kext.
-// It will override the defaults specfied by the CodecCommander Info.plist
-
-// Customize to suit your needs.
-
-DefinitionBlock ("", "SSDT", 1, "hack", "_ALC298", 0)
+DefinitionBlock ("", "SSDT", 1, "hack", "_ALC256i", 0)
 {
-    External(_SB.PCI0.HDAS, DeviceObj)
-    Name(_SB.PCI0.HDAS.RMCF, Package()
+    External(_SB.PCI0.HDEF, DeviceObj)
+    Name(_SB.PCI0.HDEF.RMCF, Package()
     {
         "CodecCommander", Package()
         {
@@ -19,16 +13,16 @@ DefinitionBlock ("", "SSDT", 1, "hack", "_ALC298", 0)
                 Package(){}, // signifies Array instead of Dictionary
                 Package()
                 {
-                    // 0x18 SET_PIN_WIDGET_CONTROL 0x22
-                    "Command", Buffer() { 0x01, 0x87, 0x07, 0x22 },
+                    // 0x19 SET_PIN_WIDGET_CONTROL 0x24
+                    "Command", Buffer() { 0x01, 0x97, 0x07, 0x24 },
                     "On Init", ">y",
                     "On Sleep", ">n",
                     "On Wake", ">y",
                 },
                 Package()
                 {
-                    // 0x1a SET_PIN_WIDGET_CONTROL 0x23
-                    "Command", Buffer() { 0x01, 0xa7, 0x07, 0x23 },
+                    // 0x1A SET_PIN_WIDGET_CONTROL 0x20
+                    "Command", Buffer() { 0x01, 0xA7, 0x07, 0x20 },
                     "On Init", ">y",
                     "On Sleep", ">n",
                     "On Wake", ">y",
@@ -40,10 +34,10 @@ DefinitionBlock ("", "SSDT", 1, "hack", "_ALC298", 0)
                     "On Init", ">y",
                     "On Sleep", ">n",
                     "On Wake", ">y",
-                },
+                }
             },
             "Perform Reset", ">n",
-            "Perform Reset on External Wake", ">n", // enable if using AppleALC
+            //"Perform Reset on External Wake", ">n", // enable if using AppleALC
             "Send Delay", 10,
             "Sleep Nodes", ">n",
         },
