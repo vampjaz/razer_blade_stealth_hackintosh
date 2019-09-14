@@ -61,26 +61,6 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
-					<string>audio - change HDAS to HDEF (needed for CodecCommander ssdt)</string>
-					<key>Disabled</key>
-					<false/>
-					<key>Find</key>
-					<data>SERBUw==</data>
-					<key>Replace</key>
-					<data>SERFRg==</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
-					<string>graphics - change GFX0 to IGPU</string>
-					<key>Disabled</key>
-					<false/>
-					<key>Find</key>
-					<data>R0ZYMA==</data>
-					<key>Replace</key>
-					<data>SUdQVQ==</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
 					<string>sleep - fix GPRW(0x6d,0x04) instant wake</string>
 					<key>Disabled</key>
 					<false/>

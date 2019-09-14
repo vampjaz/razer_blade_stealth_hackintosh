@@ -51,12 +51,15 @@ TL;DR -
 - Changing the keyboard color through some custom apps, also enabling the logo light
 - Internal webcam with Facetime
 - Virtualization (VT-x)
+- SideCar over USB (in Catalina)
 - iMessage and iCloud (YMMV)
 
 **What does not work:**
 
 - Thunderbolt 3 
 - USB-C functionality on the TB3 port (it can be enabled but it breaks other things)
+- Apple Watch Unlock - something with the third party wifi card causes failure
+- Wireless SideCar (in Catalina) - again a wifi issue I'm pretty sure
 - Booting with OpenCore - there are stability issues
 
 **Not tested:**
