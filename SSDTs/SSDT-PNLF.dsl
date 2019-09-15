@@ -1,7 +1,7 @@
 // Adding PNLF device for WhateverGreen.kext and others.
 // This is a modified PNLF version originally taken from RehabMan/OS-X-Clover-Laptop-Config repository:
 // https://raw.githubusercontent.com/RehabMan/OS-X-Clover-Laptop-Config/master/hotpatch/SSDT-PNLF.dsl
-// Rename GFX0 to anything else if your IGPU name is different.
+// Rename IGPU to anything else if your IGPU name is different.
 //
 // Licensed under GNU General Public License v2.0
 // https://github.com/RehabMan/OS-X-Clover-Laptop-Config/blob/master/License.md
@@ -25,14 +25,14 @@ DefinitionBlock("", "SSDT", 2, "hack", "_PNLF", 0)
     External(RMCF.GRAN, IntObj)
     External(RMCF.FBTP, IntObj)
 
-    External(_SB.PCI0.GFX0, DeviceObj)
-    Scope(_SB.PCI0.GFX0)
+    External(_SB.PCI0.IGPU, DeviceObj)
+    Scope(_SB.PCI0.IGPU)
     {
         OperationRegion(RMP3, PCI_Config, 0, 0x14)
     }
 
     // For backlight control
-    Device(_SB.PCI0.GFX0.PNLF)
+    Device(_SB.PCI0.IGPU.PNLF)
     {
         Name(_ADR, Zero)
         Name(_HID, EisaId("APP0002"))
