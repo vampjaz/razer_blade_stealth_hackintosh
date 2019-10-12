@@ -8,9 +8,11 @@ Intro
 
 Hey there, I got several requests to release my EFI and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual mac operating system files. The only system files I modified were the asset files needed to change the About This Mac display, and the screen resoltion overrides to allow me to run the internal display at 5K HiDPI.
 
+Also, I have tried out the macOS Catalina release and most things work, sleep is buggy though. At least sidecar seems to work fine now on the release.
+
 **Disclaimer:** I am not responsible if you mess up your computer with this setup. I recommend reading everything so you know what you're getting yourself into.
 
-This EFI (both the Clover and OpenCore versions) should be compatible with Catalina but you're on your own if you try to install it. Also, **I do not recommend using the OpenCore EFI!** It's not maintained as often (I made it as an experiement), and causes instability with the trackpad drivers. It's meant for learning.
+**I do not recommend using the OpenCore EFI!** It's not maintained as often (I made it as an experiement), and causes instability with the trackpad drivers. It's meant for learning.
 
 Here is the hardware specification of my Blade as I bought it:
 
@@ -51,7 +53,7 @@ TL;DR -
 - Changing the keyboard color through some custom apps, also enabling the logo light
 - Internal webcam with Facetime
 - Virtualization (VT-x)
-- SideCar over USB (in Catalina)
+- SideCar over USB and wireless (in Catalina)
 - iMessage and iCloud (YMMV)
 
 **What does not work:**
@@ -59,7 +61,6 @@ TL;DR -
 - Thunderbolt 3 
 - USB-C functionality on the TB3 port (it can be enabled but it breaks other things)
 - Apple Watch Unlock - something with the third party wifi card causes failure
-- Wireless SideCar (in Catalina) - again a wifi issue I'm pretty sure
 - Booting with OpenCore - there are stability issues
 
 **Not tested:**
