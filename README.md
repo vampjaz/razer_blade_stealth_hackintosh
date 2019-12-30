@@ -100,8 +100,9 @@ Translating to this command:\
 `./voltageshift offset -105 -85 -105`\
 
 We can see the CPU Voltage while Idling in HW Monitor\
-Before ![Before undervolt](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/hwmon_beforeundervolt.png)
- After ![After undervolt](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/hwmo_afterundervolt.png)
+Before & After\
+![Before undervolt](https://github.com/alinach120602/razer_blade_stealth_hackintosh/raw/master/images/hwmon_beforeundervolt.png)
+![After undervolt](https://github.com/alinach120602/razer_blade_stealth_hackintosh/raw/master/images/hwmon_afterundervolt.png)
 
 This command will only apply the Undervolt Temporarily, it will be gone after sleep, but is retained through reboots, just not cold boots.\
 That’s great for stress testing your Hardware with the new Undervolt, but for everyday use, a permanent Undervolt is obviously better.\
