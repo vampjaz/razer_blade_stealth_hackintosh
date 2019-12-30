@@ -6,7 +6,7 @@ Razer Blade Stealth (2018) hackintosh
 Intro
 ---
 
-Hey there, I got several requests to release my EFI and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual mac operating system files. The only system files I modified were the asset files needed to change the About This Mac display, and the screen resoltion overrides to allow me to run the internal display at 5K HiDPI.
+Hey there, I got several requests to release my EFI and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual mac operating system files. The only system files I modified were the asset files needed to change the About This Mac display, and the screen resolution overrides to allow me to run the internal display at 5K HiDPI.
 
 Also, I have tried out the macOS Catalina release and most things work, sleep is buggy though. At least sidecar seems to work fine now on the release.
 
@@ -37,7 +37,7 @@ TL;DR -
 **What works:**
 
 - CPU power management
-- Readng CPU temperature
+- Reading CPU temperature
 - GPU acceleration and video codecs
 - SSD with full speed **[after being replaced]**
 - Wireless (wifi, bt, Continuity, Airdrop) **[after being replaced]**
@@ -53,7 +53,7 @@ TL;DR -
 - Changing the keyboard color through some custom apps, also enabling the logo light
 - Internal webcam with Facetime
 - Virtualization (VT-x)
-- SideCar over USB and wireless (in Catalina)
+- Sidecar over USB and wireless (in Catalina)
 - iMessage and iCloud (YMMV)
 
 **What does not work:**
@@ -76,6 +76,50 @@ CPU
 The [i7-8550U](https://ark.intel.com/products/122589/Intel-Core-i7-8550U-Processor-8M-Cache-up-to-4-00-GHz-) worked pretty well out of the box. I needed to add CPUFriend and a data SSDT (see SSDT-CPUF) to get it to idle below 1.20GHz (it goes down to about 0.80 now), but other than that, power management seems fine and it has plenty of power. I haven't seen it turbo up all the way (usually tops out at about 3.7GHz, although that might be a misconfigured CPUFriend vector or a power limit issue). The SMCProcessor sensors kext worked out of the box for seeing CPU temperature.
 
 ![screenshot of CPU temp and wattage in HWMonitor](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/hwmon_info.png)
+
+Undervolting
+-----
+
+To undervolt, [Voltageshift](https://github.com/sicreative/VoltageShift) is the way to go.\
+It resides as a kext in C/K/O and has a companion cli "configurator"\
+It is pretty easy to use actually, general use is as follows:\
+`./voltageshift offset <CPU> <GPU> <CPUCache> <SystemAgency> <Analogy I/O> <Digital I/O>`\
+We only need to adjust the first three Voltage Offsets, as the latter offsets are locked on most Systems anyway 
+and it's generally not recommended to change them.
+
+
+**Disclaimer:** If you do screw your undervolt and your System freezes, no need to worry, just force power down and do a cold boot\
+If you applied your undervolt permanently and can't start your system anymore, just temporarily fully enable SIP in the Clover Options when starting Clover and add -X (Safe Boot) to your Boot flags.\
+Then use `./voltageshift removelaunchd` to delete the broken Launch Daemon.
+
+`./voltageshift offset <CPU> <GPU> <CPUCache>`\
+CPU and CPUCache are always linked, so you must enter the same value for both\
+My Razer Blade Stealth can go down as low as -105mv on CPU and -85mv on GPU.\
+CPUCache as said earlier, set to -105 being the same as the CPU.\
+Translating to this command:\
+`./voltageshift offset -105 -85 -105`\
+
+We can see the CPU Voltage while Idling in HW Monitor\
+Before & After\
+![Before undervolt](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/hwmon_beforeundervolt.png)
+![After undervolt](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/hwmon_afterundervolt.png)
+
+This command will only apply the Undervolt Temporarily, it will be gone after sleep, but is retained through reboots, just not cold boots.\
+That’s great for stress testing your Hardware with the new Undervolt, but for everyday use, a permanent Undervolt is obviously better.\
+The good thing is, we can setup a Launch Daemon using this nifty command\
+`sudo ./voltageshift buildlaunchd <CPU> <GPU> <CPUCache> <SA> <AI/O> <DI/O> <turbo> <pl1> <pl2> <UpdateMins>`
+
+But before we make the Undervolt permanent, be sure that your undervolt is stable.\
+You can test your system with:\
+[Intel's Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget)\
+[Cinebench R15](https://www.guru3d.com/files-get/cinebench-15-download,1.html) / [Cinebench R20](http://http.maxon.net/pub/cinebench/CinebenchR20.dmg) is also great to test Stability\
+[Heaven Benchmark](https://benchmark.unigine.com/heaven) is great for GPU Stress testing as well as\
+[Handbrake](https://handbrake.fr) with Quicksync encoding for GPU and H.265 Software Rendering for CPU Stress testing.    
+Because we are specifically undervolting, it is also important to test our Idle stability, which we'll do by leaving our PC idling for 30-60 Minutes.
+
+`sudo ./voltageshift buildlaunchd -105 -85 -105 0 0 0 1 15 44 1`\
+The first three arguments are obviously for our CPU GPU and CPUCache voltage offsets and the latter three are for the SystemAgency Analog IO and Digital IO Offsets, which we don’t need, the first “1" relates to Turbo being turned on, the 15 and 44 relate to the PL1 and PL2 Power in Watts (Stock Settings for the 8550U in the Razer Blade Stealth) and the last "1" relates to the Update Time in Minutes where the LaunchDaemon restarts and applies the offsets every Minute, so that if you sleep your Blade it will automatically re-apply the Voltage offset every 60 Seconds, so that you are constantly running your CPU undervolted 
+Note: While using Voltageshift you can’t have fully-blown SIP enabled, you can only run SIP with kext-only maximum.
 
 GPU
 -----
