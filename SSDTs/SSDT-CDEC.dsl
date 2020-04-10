@@ -43,7 +43,7 @@ DefinitionBlock ("", "SSDT", 1, "hack", "_ALC298", 0)
                 },
             },
             "Perform Reset", ">n",
-            "Perform Reset on External Wake", ">n", // enable if using AppleALC
+            "Perform Reset on External Wake", ">y", // enable if using AppleALC
             "Send Delay", 10,
             "Sleep Nodes", ">n",
         },

@@ -233,4 +233,9 @@ The `images` folder has, among other things, the desktop I edited based on the [
 Conclusion?
 ---
 
-Its a pretty good laptop, one might almost mistake it for a dark Macbook. I'm quite satisfied with it. If you want help you can probably find me on the Hackintosh discord: https://discord.gg/uvWNGKV - `@Jazzy#5637`. 
+Its a pretty good laptop, one might almost mistake it for a dark Macbook. I'm quite satisfied with it. If you want help you can probably find me on the Hackintosh discord: https://discord.gg/uvWNGKV - `@jaz#8577`. 
+
+License
+-----
+
+All my work in this repo, including previous commits (SSDTs, config files, etc) is distributed under a [Creative Commons Attribution-NonCommercial-ShareAlike](https://creativecommons.org/licenses/by-nc-sa/3.0/) (CC BY-NC-SA) 3.0 License. All others' work (clover, kexts, drivers) retains the original license it was distributed with.

@@ -61,6 +61,16 @@
 				</dict>
 				<dict>
 					<key>Comment</key>
+					<string>shutdown - change PTS to ZPTS</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>X1BUUwE=</data>
+					<key>Replace</key>
+					<data>WlBUUwE=</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
 					<string>graphics - change GFX0 to IGPU</string>
 					<key>Disabled</key>
 					<false/>
@@ -78,16 +88,6 @@
 					<data>R1BSVwptCgQ=</data>
 					<key>Replace</key>
 					<data>R1BSVwptCgA=</data>
-				</dict>
-				<dict>
-					<key>Comment</key>
-					<string>sleep - fix GPRW(0x69,0x04) instant wake</string>
-					<key>Disabled</key>
-					<false/>
-					<key>Find</key>
-					<data>R1BSVwppCgQ=</data>
-					<key>Replace</key>
-					<data>R1BSVwppCgA=</data>
 				</dict>
 				<dict>
 					<key>Comment</key>
@@ -147,8 +147,8 @@
 				<integer>1</integer>
 				<key>enable-hdmi20</key>
 				<integer>1</integer>
-				<key>framebuffer-unifiedmem</key>
-				<data>AAAAgA==</data>
+				<key>enable-dpcd-max-link-rate-fix</key>
+				<integer>1</integer>
 				<key>framebuffer-con1-alldata</key>
 				<data>AQUJAAAEAACHAQAA</data>
 			</dict>
@@ -177,6 +177,7 @@
 		<array>
 			<string>Preboot</string>
 			<string>Recovery</string>
+			<string>Cat Pictures</string>
 		</array>
 		<key>Mouse</key>
 		<dict>
