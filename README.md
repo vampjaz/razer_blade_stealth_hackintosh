@@ -1,18 +1,17 @@
 Razer Blade Stealth (2018) hackintosh
 ===
+Now with proper Opencore and Big Sur!
 
-![about this mac image](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/about.png)
+![about this mac image](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/about.png)
 
 Intro
 ---
 
-Hey there, I got several requests to release my EFI and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [Corp's](https://hackintosh.gitbook.io/-r-hackintosh-vanilla-desktop-guide/) or [RehabMan's](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual mac operating system files. The only system files I modified were the asset files needed to change the About This Mac display, and the screen resoltion overrides to allow me to run the internal display at 5K HiDPI.
-
-Also, I have tried out the macOS Catalina release and most things work, sleep is buggy though. At least sidecar seems to work fine now on the release.
+Hey there, I got several requests to release my EFI and show how I made my Razer Bade Stealth Mojave hackintosh, so here it is. This is not a full step-by-step guide, rather a few specific notes (and a full EFI folder) to compliment a full guide like [The Doritania Vanilla Guide](https://dortania.github.io/OpenCore-Install-Guide/). This install aims to be as vanilla as possible, so no modifications should be needed to the actual mac operating system files. The only system files I modified were the screen resoltion overrides to allow me to run the internal display at 5K HiDPI.
 
 **Disclaimer:** I am not responsible if you mess up your computer with this setup. I recommend reading everything so you know what you're getting yourself into.
 
-**I do not recommend using the OpenCore EFI!** It's not maintained as often (I made it as an experiement), and causes instability with the trackpad drivers. It's meant for learning.
+**I do not recommend using the EFI without understanding what you are doing!** Read the Doritania guide, read my notes here, and understand what you are getting into. I will not help people who try to ask for help in the issues.
 
 Here is the hardware specification of my Blade as I bought it:
 
@@ -46,14 +45,15 @@ TL;DR -
 - Touchscreen, also with gestures
 - Sound through headphone jack and speakers (including persistence through sleep)
 - Internal microphone
-- All USB ports except the USB-C
-- Screen full resolution, brightness
+- All USB ports except the USB-C*
+- Full screen resolution, brightness
 - HDMI (some graphical glitches at certain resolutions, but they come and go)
+- Displayport output on the TB3 port (breaks after sleep?)
 - Battery precentage, charging
 - Changing the keyboard color through some custom apps, also enabling the logo light
 - Internal webcam with Facetime
 - Virtualization (VT-x)
-- SideCar over USB and wireless (in Catalina)
+- SideCar over USB and wireless
 - iMessage and iCloud (YMMV)
 
 **What does not work:**
@@ -63,11 +63,6 @@ TL;DR -
 - Apple Watch Unlock - something with the third party wifi card causes failure
 - Booting with OpenCore - there are stability issues
 
-**Not tested:**
-
-- Displayport output on the TB3 port
-- Shaving with it
-
 Much more detailed notes to follow...
 
 CPU
@@ -75,7 +70,7 @@ CPU
 
 The [i7-8550U](https://ark.intel.com/products/122589/Intel-Core-i7-8550U-Processor-8M-Cache-up-to-4-00-GHz-) worked pretty well out of the box. I needed to add CPUFriend and a data SSDT (see SSDT-CPUF) to get it to idle below 1.20GHz (it goes down to about 0.80 now), but other than that, power management seems fine and it has plenty of power. I haven't seen it turbo up all the way (usually tops out at about 3.7GHz, although that might be a misconfigured CPUFriend vector or a power limit issue). The SMCProcessor sensors kext worked out of the box for seeing CPU temperature.
 
-![screenshot of CPU temp and wattage in HWMonitor](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/hwmon_info.png)
+![screenshot of CPU temp and wattage in HWMonitor](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/hwmon_info.png)
 
 GPU
 -----
@@ -84,7 +79,7 @@ All I needed to do is inject a `device-id` in the GPU properties section and use
 
 A note about the flickering issue: lately I have noticed that on boot it will flicker at a high resolution but if I sleep and wake, it goes away. If you experience flickering on this laptop and have working sleep, try sleeping for a minute and waking back up. Have been running 5120x2880 HiDPI just fine.
 
-![system profiler gpu screenshot](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/gpu_info.png)
+![system profiler gpu screenshot](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/gpu_info.png)
 
 SSD
 -----
@@ -93,7 +88,7 @@ SSD
 
 Be careful about what you replace it with though. If there are components on the back of the PCB, there may not be enough clearance. I replaced mine with a Samsung 970 EVO, which has all the components on the front of the board, and a compatible controller. 960 series should also work.
 
-![970 EVO benchmark](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/nvme_bench.png)
+![970 EVO benchmark](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/nvme_bench.png)
 
 Wifi and Bluetooth
 -----
@@ -102,7 +97,7 @@ The included Killer AC1535 wifi/BT card will also not work in macOS as it lacks 
 
 Both of the cards I mentioned (I got the 04X6020) use a Broadcom BCM94352Z, which works for me using AirportBrcmFixup and BrcmBluetoothInjector+BrcmPatchRam2 for Wifi and Bluetooth respectively. I have used Airdrop fine with this card, and continuity seems to work too. Note: the included BrcmPatchRam2 is from headkaze's fork for Catalina compatibility. I've heard reports that the DW1820a does not work well, despite being a chipset that is supposedly compatible.
 
-![bluetooth and wifi status from sys profiler](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/bt_wifi_info.png)
+![bluetooth and wifi status from sys profiler](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/bt_wifi_info.png)
 
 Sleep
 -----
@@ -137,7 +132,7 @@ Be aware that if you use TbtForcePower (not included, discussed in the Thunderbo
 
 Per another person with a Stealth, their DSDT did not contain the relevant lid code in RWAK so my patch did not work. However, they manually edited their DSDT to add the line setting `LIDS` to One at the end of the `RWAK` method and it fixed their sleep issue, so look in your DSDT to see if this is the case.
 
-![diffmerge of the dsdt sleep patch](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/dsdt_edit_sleep.png)
+![diffmerge of the dsdt sleep patch](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/dsdt_edit_sleep.png)
 
 Trackpad
 -----
@@ -171,14 +166,14 @@ Using just USBInjectAll, I had full USB capabilities out of the box on the USB 3
 
 I used the [USBMap](https://github.com/corpnewt/USBMap) script to create the UIAC and USBX SSDTs. You may need to run it yourself to properly map USB ports if they end up being different on your system.
 
-![the USB ports i mapped](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/usbmap_info.png)
+![the USB ports i mapped](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/usbmap_info.png)
 
 Display Outs
 -----
 
 The laptop has an HDMI port and a DisplayPort-over-Thunderbolt 3 as display outputs. I don't have any TB3-DP converters to test that output, but I have gotten HDMI working. Like the internal display, it sometimes flickers at high resolutions and doesn't seem to support 4K60 but it works alright for now.
 
-![displays in system profiler and ioreg](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/display_info.png)
+![displays in system profiler and ioreg](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/display_info.png)
 
 Thunderbolt
 -----
@@ -192,7 +187,7 @@ Battery
 
 Using a DSDT patch in the MaciASL patch repo named "bat - Razer Blade (2014)", and SMCBatteryManager, I was able to get battery status and precentage working. I incorporated the patched methods into an SSDT hotpatch (see SSDT-BATT). The power management works well and the battery lasts a while. I'm not sure if this is normal for hackintoshes but my battery cycle count has always showed 0.
 
-![battery info](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/battery_info.png)
+![battery info](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/battery_info.png)
 
 Keyboard Illumination
 -----
@@ -201,7 +196,7 @@ The RGB keyboard (and logo illumination) cannot be easily controlled from macOS 
 
 If you want to patch this yourself, you need to change the vendor and device IDs in one of the source files since the USB ID of my keyboard differed from the one in the source:
 
-![changing the usb ids in xcode](https://github.com/red-green/razer_blade_stealth_hackintosh/raw/master/images/rbs_led_code.png)
+![changing the usb ids in xcode](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/rbs_led_code.png)
 
 UEFI Firmware
 -----
