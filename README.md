@@ -1,6 +1,6 @@
 Razer Blade Stealth (2018) hackintosh
 ===
-Now with proper Opencore and Big Sur!
+Now with proper OpenCore and Big Sur!
 
 ![about this mac image](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/about.png)
 
@@ -89,10 +89,10 @@ Be careful about what you replace it with though. If there are components on the
 
 ![970 EVO benchmark](https://github.com/vampjaz/razer_blade_stealth_hackintosh/raw/master/images/nvme_bench.png)
 
-Wifi and Bluetooth
+Wi-Fi and Bluetooth
 -----
 
-The included Killer AC1535 wifi/BT card will also not work in macOS as it lacks drivers. **You will need to replace it if you want wifi**, or else get a USB dongle (not recommended). There are a number of compatible cards that can fit into the M.2 E-key slot. A Dell DW1560 or a Lenovo 04X6020 card will fit there fine. Be careful of wider cards like the Dell DW1860, they will not fit. 
+The included Killer AC1535 Wi-Fi/BT card will also not work in macOS as it lacks drivers. **You will need to replace it if you want wifi**, or else get a USB dongle (not recommended). There are a number of compatible cards that can fit into the M.2 E-key slot. A Dell DW1560 or a Lenovo 04X6020 card will fit there fine. Be careful of wider cards like the Dell DW1860, they will not fit. 
 
 Both of the cards I mentioned (I got the 04X6020) use a Broadcom BCM94352Z, which works for me using AirportBrcmFixup and BrcmBluetoothInjector+BrcmPatchRam2 for Wifi and Bluetooth respectively. I have used Airdrop fine with this card, and continuity seems to work too. Note: the included BrcmPatchRam2 is from headkaze's fork for Catalina compatibility. I've heard reports that the DW1820a does not work well, despite being a chipset that is supposedly compatible.
 
@@ -150,7 +150,7 @@ The USB touchscreen worked fine out of the box for basic pointing. Additionally,
 Sound
 -----
 
-The soundcard, according to the PCI ID, seems to be a Realtek ALC298. This is supported by [AppleALC](https://github.com/acidanthera/AppleALC/wiki/Supported-codecs) with layout ID 29, which I patched in through device properties. Both the internal speakers and headphone jack work, and switching between them is automatic. Microphone also seems to work, unlike some other laptops I've heard about.
+The sound card, according to the PCI ID, seems to be a Realtek ALC298. This is supported by [AppleALC](https://github.com/acidanthera/AppleALC/wiki/Supported-codecs) with layout ID 29, which I patched in through device properties. Both the internal speakers and headphone jack work, and switching between them is automatic. Microphone also seems to work, unlike some other laptops I've heard about.
 
 CodecCommander is included, and the SSDT-CDEC contains a config for my ALC298 to fix distorted audio after sleep. I found this [config](https://bitbucket.org/RehabMan/os-x-eapd-codec-commander/src/master/SSDT-ALC298.dsl) in Rehabman's repo, which is equivalent to running the following on wake:
 
